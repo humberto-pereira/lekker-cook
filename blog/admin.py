@@ -1,12 +1,26 @@
 from django.contrib import admin
-from .models import Recipe, Rating
+from .models import Recipe, Rating, Comment
 from django_summernote.admin import SummernoteModelAdmin
 
 
 @admin.register(Recipe)
 class RecipeAdmin(SummernoteModelAdmin):
 
+    prepopulated_fields = {'slug': ('title',)}
+    search_fields = ['title', 'content']
+    list_filter = ('status', 'created_date', 'author')
+    list_display = ('title', 'slug', 'status', 'created_date', 'author')
     summernote_fields = ('content')
 
 
 admin.site.register(Rating)
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('name', 'recipe', 'content', 'created_on', 'approved')
+    list_filter = ('approved', 'created_on')
+    search_fields = ('name', 'content', 'email')
+    actions = ['approve_comments']
+
+    def approve_comments(self, request, queryset):
+        queryset.update(approved=True)
