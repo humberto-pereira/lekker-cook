@@ -70,12 +70,25 @@ class Comment(models.Model):
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=False)
+    
+    @property
+    def like_count(self):
+        return self.commentlike_set.count()
 
     class Meta:
         ordering = ['-created_on']
 
     def __str__(self):
         return f'{self.recipe.title} - {self.user.username}'
+
+
+class CommentLike(models.Model):
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = (('user', 'comment'),)
 
 
 # favorite model
