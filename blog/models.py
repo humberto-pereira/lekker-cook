@@ -20,6 +20,7 @@ class Recipe(models.Model):
     content = models.TextField()
     featured_image = CloudinaryField('image', default='placeholder')
     excerpt = models.TextField(blank=True)
+    category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True, related_name='recipes')
     status = models.CharField(max_length=10,
                                 choices=STATUS_CHOICES, default='draft')
 
@@ -89,3 +90,23 @@ class Favorite(models.Model):
 
     def __str__(self):
         return f'{self.recipe.title} - {self.user.username}'
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=250, unique=True)
+    slug = models.SlugField(max_length=250, unique=True)
+    image = CloudinaryField('image', default='placeholder')
+    description = models.TextField()
+
+    class Meta:
+        ordering = ('name',)
+        verbose_name = 'category'
+        verbose_name_plural = 'categories'
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super(Category,self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
