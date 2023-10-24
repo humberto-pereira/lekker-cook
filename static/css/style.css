@@ -10,7 +10,7 @@ body {
 }
 
 .red-o {
-    color: #E84610;
+    color: #e82d10;
 }
 
 .thin {
@@ -139,4 +139,8 @@ body {
     color: #E84610;
     background: transparent;
     border: none;
+}
+
+.bowl {
+    color: #4A4A4F;
 }
