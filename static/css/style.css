@@ -1,5 +1,5 @@
 body {
-    background-color: #F9FAFC;
+    background-color: #f3f5f9;
 }
 
 .brand {
@@ -27,4 +27,8 @@ color: #4A4A4F;
 .card-title {
     font-size: 26px;
     font-weight: bold;
+}
+
+.footer-text-color p {
+    color: #4A4A4F;
 }
