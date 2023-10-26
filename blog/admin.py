@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import Recipe, Rating, Comment
+from .models import Recipe, Rating, Comment, Category
 from django_summernote.admin import SummernoteModelAdmin
+from .forms import RecipeAdminForm
 
 
 @admin.register(Recipe)
@@ -24,3 +25,11 @@ class CommentAdmin(admin.ModelAdmin):
 
     def approve_comments(self, request, queryset):
         queryset.update(approved=True)
+
+
+class CategoryAdmin(admin.ModelAdmin):
+    form = RecipeAdminForm
+    list_display = ('name', 'slug', 'description')
+
+
+admin.site.register(Category, CategoryAdmin)
