@@ -56,65 +56,24 @@
     </div>
     <div class="container mt-5">
         <div class="row d-flex">
-            <div class="col-12 col-md-6 col-lg-3 mb-4">
-                <div class="card h-100">
-                    <img src="/static/images/meat.jpg" class="card-img-top" alt="..." />
-                    <div class="card-body">
-                        <a href="" class="card-link" target="_blank">
-                            <p class="card-text">
-                                <span class="card-title">Meat</span> - Savor a collection of delectable meat dishes,
-                                from tender steaks to mouth-watering
-                                roasts. Dive in and explore recipes that promise to tantalize your taste buds!
-                            </p>
-                        </a>
+            {% for category in categories %}
+                <div class="col-12 col-md-6 col-lg-3 mb-4">
+                    <div class="card h-100">
+                        <img src="{{ category.image.url }}" class="card-img-top" alt="{{ category.name }}" />
+                        <div class="card-body">
+                            <a href="" class="card-link" target="_blank">
+                                <p class="card-text">
+                                    <span class="card-title">{{ category.name }}</span> - {{ category.description }}
+                                </p>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-3 mb-4">
-                <div class="card h-100">
-                    <img src="/static/images/fish.jpg" class="card-img-top" alt="..." />
-                    <div class="card-body">
-                        <a href="" class="card-link" target="_blank">
-                            <p class="card-text">
-                                <span class="card-title">Fish</span> - Explore a sea of flavors with our exquisite fish
-                                recipes. Dive into delightful dishes ranging from light, flaky fillets to rich, savory
-                                stews. A journey of taste that promises freshness in every bite.
-                            </p>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-3 mb-4">
-                <div class="card h-100">
-                    <img src="/static/images/dough.jpg" class="card-img-top" alt="..." />
-                    <div class="card-body">
-                        <a href="" class="card-link" target="_blank">
-                            <p class="card-text">
-                                <span class="card-title">Dough</span> - Unleash your creativity with our versatile dough
-                                recipes. From fluffy breads to delectable pastries, explore a world where soft,
-                                delightful textures meet unforgettable flavors. A foundation for culinary imagination.
-                            </p>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-3 mb-4">
-                <div class="card h-100">
-                    <img src="/static/images/dessert.jpg" class="card-img-top" alt="..." />
-                    <div class="card-body">
-                        <a href="" class="card-link" target="_blank">
-                            <p class="card-text">
-                                <span class="card-title">Dessert</span> - Indulge in a world of sweet delights with our
-                                dessert recipes. From decadent cakes to creamy puddings, our collection of dessert
-                                recipes is sure to inspire your next memorable creation.
-                            </p>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </div>
+
 
 
 {%endblock%}

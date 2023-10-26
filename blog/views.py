@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Category, Recipe
 
 
 def category_list(request):
-    categories = Category.objects.all().prefetch_related('recipe_set')
+    categories = Category.objects.all().prefetch_related('recipes')
     
     category_data = []
     for category in categories:
@@ -20,3 +20,14 @@ def category_list(request):
 def recipe_detail(request, pk):
     recipe = Recipe.objects.get(pk=pk)
     return render(request, 'recipes/recipe_detail.html', {'recipe': recipe})
+
+
+def index(request):
+    categories = Category.objects.all()
+    return render(request, 'index.html', {'categories': categories})
+
+def category_detail(request, slug):
+    category = get_object_or_404(Category, slug=slug)
+    recipes = Recipe.objects.filter(category=category)
+    return render(request, 'category_detail.html',
+                  {'category': category, 'recipes': recipes})

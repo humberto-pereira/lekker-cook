@@ -28,7 +28,6 @@ class CommentAdmin(admin.ModelAdmin):
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    form = RecipeAdminForm
     list_display = ('name', 'slug', 'description')
 
 
