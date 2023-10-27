@@ -1,0 +1,26 @@
+{% extends "base.html" %} 
+{% block content %}
+
+<div class="container mt-5">
+    <!-- Recipe Image -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <img src="{{ recipe.featured_image.url }}" alt="{{ recipe.title }}" class="img-fluid">
+        </div>
+    </div>
+
+    <!-- Recipe Title and Details -->
+    <div class="row">
+        <div class="col-12">
+            <h2>{{ recipe.title }}</h2>
+            <p><i class="fas fa-star"></i> {{ recipe.average_rating }} ({{ recipe.number_of_ratings }})</p>
+            <p>{{ recipe.description }}</p> 
+            
+            <button class="btn btn-outline-secondary">
+                <i class="fas fa-heart"></i> Favorite
+            </button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

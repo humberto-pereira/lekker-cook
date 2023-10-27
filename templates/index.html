@@ -61,7 +61,7 @@
                     <div class="card h-100">
                         <img src="{{ category_data.category.image.url }}" class="card-img-top" alt="{{ category.name }}" />
                         <div class="card-body">
-                            <a href="" class="card-link" target="_blank">
+                            <a href="{% url 'category_detail' slug=category_data.category.slug %}" class="card-link" target="_blank">
                                 <p class="card-text">
                                     <span class="card-title">{{ category_data.category.name }}</span> - {{ category_data.category.description }}
                                 </p>

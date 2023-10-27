@@ -17,9 +17,9 @@ def category_list(request):
     return render(request, 'index.html', {'categories': category_data})
 
 
-def recipe_detail(request, pk):
-    recipe = Recipe.objects.get(pk=pk)
-    return render(request, 'recipes/recipe_detail.html', {'recipe': recipe})
+def recipe_detail(request, slug):
+    recipe = get_object_or_404(Recipe, slug=slug)
+    return render(request, 'recipe_detail.html', {'recipe': recipe})
 
 
 def index(request):

@@ -24,6 +24,10 @@ class Recipe(models.Model):
     status = models.CharField(max_length=10,
                                 choices=STATUS_CHOICES, default='draft')
 
+    @property
+    def number_of_ratings(self):
+        return self.ratings.count()
+
     class Meta:
         ordering = ['-created_date']
 
