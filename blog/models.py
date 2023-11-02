@@ -14,7 +14,7 @@ class Recipe(models.Model):
     title = models.CharField(max_length=250)
     author = models.ForeignKey(User, on_delete=models.CASCADE,
                                 related_name='recipe_posts')
-    slug = models.SlugField(max_length=250, unique=True)
+    slug = models.SlugField(max_length=250, unique=True, db_index=True)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
     content = models.TextField()
@@ -53,7 +53,8 @@ class Rating(models.Model):
                                related_name='ratings')
     user = models.ForeignKey(User, on_delete=models.CASCADE,
                              related_name='ratings')
-    stars = models.IntegerField(choices=[(i, i) for i in range(1, 6)])
+    STAR_CHOICES = [(i, i) for i in range(1, 6)]
+    stars = models.IntegerField(choices=STAR_CHOICES)
     created_on = models.DateTimeField(auto_now_add=True)
 
     class Meta:

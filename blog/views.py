@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Category, Recipe
+from django.db.models import Avg
 
 
 def category_list(request):
@@ -28,6 +29,6 @@ def index(request):
 
 def category_detail(request, slug):
     category = get_object_or_404(Category, slug=slug)
-    recipes = Recipe.objects.filter(category=category)
+    recipes = Recipe.objects.filter(category=category).annotate(annotated_average_rating=Avg('ratings__stars')).order_by('-annotated_average_rating', '-created_date')
     return render(request, 'category_detail.html',
                   {'category': category, 'recipes': recipes})
