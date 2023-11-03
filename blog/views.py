@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Category, Recipe
+from .models import Category, Recipe, Carousel
 from django.db.models import Avg
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import logout, authenticate, login
@@ -18,8 +18,9 @@ def category_list(request):
             'recipes_count': recipes.count(),
             'recipes': recipes[:5],  # Display up to 5 recipes from each category
         })
-    
-    return render(request, 'index.html', {'categories': category_data})
+    carousel_items = Carousel.objects.all()
+
+    return render(request, 'index.html', {'categories': category_data, 'carousel_items': carousel_items})
 
 
 def recipe_detail(request, slug):
@@ -62,3 +63,5 @@ def logout_view(request):
     else:
         #render the logout page if method is GET
         return render(request, 'registration/logout.html')
+    
+

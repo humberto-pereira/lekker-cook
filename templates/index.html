@@ -5,41 +5,22 @@
         <div class="col-12 d-sm-block d-none mt-5">
             <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
                 <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
-                        aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1"
-                        aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2"
-                        aria-label="Slide 3"></button>
+                    {% for slide in carousel_items %}
+                        <button type="button" data-bs-target="#carouselExampleDark"
+                            data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %} class="active"
+                            aria-current="true" {% endif %} aria-label="Slide {{ forloop.counter }}"></button>
+                    {% endfor %}
                 </div>
                 <div class="carousel-inner">
-                    <div class="carousel-item active" data-bs-interval="5000">
-                        <img src="/static/images/chicken.jpg" class="d-block w-auto m-auto" alt="..." />
+                    {% for slide in carousel_items %}
+                    <div class="carousel-item {% if forloop.first %} active {% endif %}" data-bs-interval="5000" style="height: 650px; overflow: hidden;">
+                        <img src="{{ slide.image.url }}" class="d-block img-fluid w-75 m-auto" alt="{{ slide.heading }}" />
                         <div class="carousel-caption d-none d-md-block">
-                            <h5>First slide label</h5>
-                            <p>
-                                Some representative placeholder content for the first slide.
-                            </p>
+                            <h5>{{ slide.heading }}</h5>
+                            <p>{{ slide.caption }}</p>
                         </div>
                     </div>
-                    <div class="carousel-item" data-bs-interval="5000">
-                        <img src="/static/images/chicken.jpg" class="d-block w-auto m-auto" alt="..." />
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Second slide label</h5>
-                            <p>
-                                Some representative placeholder content for the second slide.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="carousel-item" data-bs-interval="5000">
-                        <img src="/static/images/chicken.jpg" class="d-block w-auto m-auto" alt="..." />
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5 class="text-light">Third slide label</h5>
-                            <p>
-                                Some representative placeholder content for the third slide.
-                            </p>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"
                     data-bs-slide="prev">
@@ -53,30 +34,29 @@
                 </button>
             </div>
         </div>
-    </div>
-    <div class="container mt-5">
-        <div class="row d-flex">
-            {% for category_data in categories %}
-            <div class="col-12 col-md-6 col-lg-3 mb-4">
-                <a href="{% url 'category_detail' slug=category_data.category.slug %}" class="card-link"
-                    target="_blank">
-                    <div class="card h-100">
-                        <img src="{{ category_data.category.image.url }}" class="card-img-top"
-                            alt="{{ category.name }}" />
-                        <div class="card-body">
-                            <p class="card-text">
-                                <span class="card-title">{{ category_data.category.name }}</span> - 
-                                {{ category_data.category.description }}
-                            </p>
+        <div class="container mt-5">
+            <div class="row d-flex">
+                {% for category_data in categories %}
+                <div class="col-12 col-md-6 col-lg-3 mb-4">
+                    <a href="{% url 'category_detail' slug=category_data.category.slug %}" class="card-link"
+                        target="_blank">
+                        <div class="card h-100">
+                            <img src="{{ category_data.category.image.url }}" class="card-img-top"
+                                alt="{{ category.name }}" />
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <span class="card-title">{{ category_data.category.name }}</span> -
+                                    {{ category_data.category.description }}
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
     </div>
-</div>
 
 
 
-{%endblock%}
+    {%endblock%}

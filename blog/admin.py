@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Recipe, Rating, Comment, Category
+from .models import Recipe, Rating, Comment, Category, Carousel
 from django_summernote.admin import SummernoteModelAdmin
 from .forms import RecipeAdminForm
 
@@ -31,5 +31,12 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug', 'description', 'image')
     prepopulated_fields = {'slug': ('name',)}
 
-
 admin.site.register(Category, CategoryAdmin)
+
+
+class CarouselAdmin(admin.ModelAdmin):
+    list_display = ('heading', 'caption', 'image')
+    search_fields = ('heading', 'caption')
+    list_filter = ('heading',)
+
+admin.site.register(Carousel, CarouselAdmin)

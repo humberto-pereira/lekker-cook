@@ -4,6 +4,15 @@ from cloudinary.models import CloudinaryField
 from django.utils.text import slugify
 
 
+class Carousel(models.Model):
+    image = CloudinaryField('carousel_image', default='placeholder')
+    heading = models.CharField(max_length=250)
+    caption = models.TextField()
+
+    def __str__(self):
+        return self.heading
+
+
 # recipe model: Handles the recipe posts
 class Recipe(models.Model):
     STATUS_CHOICES = [
