@@ -47,6 +47,9 @@ INSTALLED_APPS = [
     'cloudinary',
     'django_summernote',
     'blog',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'lekkercook.urls'
@@ -143,5 +147,9 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # login redirect URL
 LOGIN_REDIRECT_URL = 'home'
+
+AUTHENTICATION_BACKENDS = (
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

@@ -57,18 +57,21 @@
     <div class="container mt-5">
         <div class="row d-flex">
             {% for category_data in categories %}
-                <div class="col-12 col-md-6 col-lg-3 mb-4">
+            <div class="col-12 col-md-6 col-lg-3 mb-4">
+                <a href="{% url 'category_detail' slug=category_data.category.slug %}" class="card-link"
+                    target="_blank">
                     <div class="card h-100">
-                        <img src="{{ category_data.category.image.url }}" class="card-img-top" alt="{{ category.name }}" />
+                        <img src="{{ category_data.category.image.url }}" class="card-img-top"
+                            alt="{{ category.name }}" />
                         <div class="card-body">
-                            <a href="{% url 'category_detail' slug=category_data.category.slug %}" class="card-link" target="_blank">
-                                <p class="card-text">
-                                    <span class="card-title">{{ category_data.category.name }}</span> - {{ category_data.category.description }}
-                                </p>
-                            </a>
+                            <p class="card-text">
+                                <span class="card-title">{{ category_data.category.name }}</span> - 
+                                {{ category_data.category.description }}
+                            </p>
                         </div>
                     </div>
-                </div>
+                </a>
+            </div>
             {% endfor %}
         </div>
     </div>

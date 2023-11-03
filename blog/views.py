@@ -2,8 +2,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Category, Recipe
 from django.db.models import Avg
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import logout
+from django.contrib.auth import logout, authenticate, login
 from django.contrib import messages
+from django.urls import reverse
+
 
 def category_list(request):
     categories = Category.objects.all().prefetch_related('recipes')
@@ -36,18 +38,27 @@ def category_detail(request, slug):
     return render(request, 'category_detail.html',
                   {'category': category, 'recipes': recipes})
 
-def register(request):
+def signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
             # save the user
             form.save()
-            return redirect('login')
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')
     else:
         form = UserCreationForm()
-    return render(request, 'registration/register.html', {'form': form})
+    return render(request, 'registration/signup.html', {'form': form})
 
 def logout_view(request):
-    logout(request)
-    messages.info(request, "You have been logged out.")
-    return redirect("home")
+    if request.method == 'POST':
+        logout(request)
+        messages.info(request, 'You have been logged out.')
+        return redirect('home')
+    else:
+        #render the logout page if method is GET
+        return render(request, 'registration/logout.html')
