@@ -40,6 +40,26 @@ color: #4A4A4F;
 }
 
 
-.comment-box {
+.comment-form-textarea {
     width: 80%;
 }
+
+.comment-box {
+    margin: 3% 0 3% 7%;
+}
+
+.comments {
+    margin-top: 3%;
+    margin-left: 7%;
+}
+
+.individual-comment {
+    padding: 10px;
+    border-bottom: solid 1px #4A4A4F;
+    width: 80%;
+}
+
+/* .comment-title {
+    margin-left: 4%;
+} */
+

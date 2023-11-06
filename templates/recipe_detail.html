@@ -1,4 +1,4 @@
-{% extends "base.html" %} 
+{% extends "base.html" %}
 {% block content %}
 
 <div class="container mt-5">
@@ -14,7 +14,7 @@
         <div class="col-12">
             <h2>{{ recipe.title }}</h2>
             <p><i class="fas fa-star"></i> {{ recipe.average_rating }} ({{ recipe.number_of_ratings }})</p>
-            <p>{{ recipe.content }}</p> 
+            <p>{{ recipe.content }}</p>
 
             <button class="btn btn-outline-secondary">
                 <i class="fas fa-heart"></i> Favorite
@@ -23,10 +23,10 @@
     </div>
 </div>
 <!-- Comments List -->
-<div>
+<div class="comments">
     <h2>Comments:</h2>
     {% for comment in comments %}
-    <div>
+    <div class="individual-comment">
         <p><strong>Comment by:</strong> {{ comment.user.username }} </p>
         <p>{{ comment.content }}</p>
         <p>Posted on {{ comment.created_on }}</p>
@@ -35,13 +35,14 @@
     <p>No comments yet.</p>
     {% endfor %}
 </div>
-<div>
-    <h2>Leave a Comment:</h2>
+<div class="comment-box">
+    <h2 class="comment-title">Leave a Comment:</h2>
     <form method="post">
         {% csrf_token %}
         {{ comment_form.as_p }}
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
+
 
 {% endblock %}

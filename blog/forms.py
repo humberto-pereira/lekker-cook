@@ -23,11 +23,11 @@ class CommentForm(forms.ModelForm):
     """
     class Meta:
         model = Comment
-        fields = ['content']
+        fields = ('content',)
     content = forms.CharField(widget=forms.Textarea(attrs={
-        'class': 'comment-box',
+        'class': 'comment-form-textarea',
         'placeholder': 'Write your comment here!',
-        'rows': 4,
+        'rows': 5,
         'cols': 30,
         })
     )
