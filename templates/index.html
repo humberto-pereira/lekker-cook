@@ -2,9 +2,9 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 d-sm-block d-none mt-5">
+        <div class="col-10 offset-1  d-none d-md-block mt-5">
             <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
-                <div class="carousel-indicators">
+                <div class="carousel-indicators d-none mt-5">
                     {% for slide in carousel_items %}
                         <button type="button" data-bs-target="#carouselExampleDark"
                             data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %} class="active"
@@ -13,7 +13,7 @@
                 </div>
                 <div class="carousel-inner">
                     {% for slide in carousel_items %}
-                    <div class="carousel-item {% if forloop.first %} active {% endif %}" data-bs-interval="5000" style="height: 650px; overflow: hidden;">
+                    <div class="carousel-item {% if forloop.first %} active {% endif %}" data-bs-interval="5000">
                         <img src="{{ slide.image.url }}" class="d-block img-fluid w-75 m-auto" alt="{{ slide.heading }}" />
                         <div class="carousel-caption d-none d-md-block">
                             <h5>{{ slide.heading }}</h5>
@@ -41,8 +41,8 @@
                     <a href="{% url 'category_detail' slug=category_data.category.slug %}" class="card-link"
                         target="_blank">
                         <div class="card h-100">
-                            <img src="{{ category_data.category.image.url }}" class="card-img-top"
-                                alt="{{ category.name }}" />
+                            <img src="{{ category_data.category.image.url }}" class="card-img-top image-overlay"
+                                alt="{{ category.name }}"/>
                             <div class="card-body">
                                 <p class="card-text">
                                     <span class="card-title">{{ category_data.category.name }}</span> -

@@ -33,4 +33,10 @@ color: #4A4A4F;
     color: #4A4A4F;
 }
 
+.carousel-caption {
+    position: static; /* Override the default absolute positioning */
+    padding: 0;
+    margin-top: 15px; /* Space between the image and the text */
+}
+
 
