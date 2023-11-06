@@ -8,6 +8,13 @@ from django.urls import reverse
 
 
 def category_list(request):
+    """
+    Display the list of categories with a count of recipes in each category.
+
+    param request: HttpRequest object
+    return: HttpResponse object with the rendered category_list.html template
+
+    """
     categories = Category.objects.all().prefetch_related('recipes')
     
     category_data = []
@@ -24,22 +31,48 @@ def category_list(request):
 
 
 def recipe_detail(request, slug):
+    """
+    Display a single recipe detail page with approved comments.
+
+    param request: HttpRequest object
+    param slug: Thej slug of the recipe to retrieve
+    :return: HttpResponse object with the rendered recipe_detail.html template
+    """
     recipe = get_object_or_404(Recipe, slug=slug)
     comments = recipe.comments.filter(approved=True)  # only approved comments
     return render(request, 'recipe_detail.html', {'recipe': recipe, 'comments': comments})
 
 
 def index(request):
+    """
+    The main page view that displays all the categories.
+
+    param request: HttpRequest object
+    return: HttpResponse object with the rendered index.html template
+    """
     categories = Category.objects.all()
     return render(request, 'index.html', {'categories': categories})
 
 def category_detail(request, slug):
+    """
+    Display the detail view of a category and its associated recipes ordered by rating.
+
+    param request: HttpRequest object
+    param slug: The slug of the category to retrieve
+    return: HttpResponse object with the rendered category_detail.html template
+    """
     category = get_object_or_404(Category, slug=slug)
     recipes = Recipe.objects.filter(category=category).annotate(annotated_average_rating=Avg('ratings__stars')).order_by('-annotated_average_rating', '-created_date')
     return render(request, 'category_detail.html',
                   {'category': category, 'recipes': recipes})
 
 def signup(request):
+    """
+    Handle user registration
+
+    param request: HttpRequest object
+    return: HttpResponse object with the rendered signup.html template or redirect to the home page if the user is logged in
+    """
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -56,6 +89,12 @@ def signup(request):
     return render(request, 'registration/signup.html', {'form': form})
 
 def logout_view(request):
+    """
+    Log out the user and redirect to the home page.
+
+    param request: HttpRequest object
+    return: HttpResponse object with the rendered logout.html template or redirect to the home page if the user is logged out
+    """
     if request.method == 'POST':
         logout(request)
         messages.info(request, 'You have been logged out.')

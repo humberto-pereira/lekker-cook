@@ -5,16 +5,24 @@ from django.utils.text import slugify
 
 
 class Carousel(models.Model):
+    """
+    Carousel model for storing carousel images,headings, and captions(content)
+    """
     image = CloudinaryField('carousel_image', default='placeholder')
     heading = models.CharField(max_length=250)
     caption = models.TextField()
 
     def __str__(self):
+        """
+        Return a string representation of the carousel model which includes the heading
+        """
         return self.heading
 
 
-# recipe model: Handles the recipe posts
 class Recipe(models.Model):
+    """
+    Recipe model for creating, storing, and managing recipe posts. Includes information such as title, author, slug, created_date, updated_date, content, featured_image, excerpt, category, and status
+    """
     STATUS_CHOICES = [
         ('draft', 'Draft'),
         ('published', 'Published'),
@@ -35,17 +43,26 @@ class Recipe(models.Model):
 
     @property
     def number_of_ratings(self):
+        """
+        Returns the number of ratings a recipe has received
+        """
         return self.ratings.count()
 
     class Meta:
         ordering = ['-created_date']
 
     def __str__(self):
+        """
+        Returns a string representation of the recipe model which includes the title
+        """
         return self.title
     
-    # average rating method: Calculates the average rating of a recipe
+    
     @property
     def average_rating(self):
+        """
+        Calculate and return the average rating for a recipe
+        """
         ratings = Rating.objects.filter(recipe=self)
         total_ratings = ratings.count()
         if total_ratings > 0:
@@ -55,9 +72,11 @@ class Recipe(models.Model):
             return 0
     
     
-# rating model: Handles the ratings, ensures that a user can only rate a
-# recipe once
+
 class Rating(models.Model):
+    """
+    Rating model for recrding a user's rating of a recipe. Ensures a user can only rate a recipe once
+    """
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE,
                                related_name='ratings')
     user = models.ForeignKey(User, on_delete=models.CASCADE,
@@ -70,11 +89,16 @@ class Rating(models.Model):
         unique_together = [['user', 'recipe']]
 
     def __str__(self):
+        """
+        Returns a string representation of the rating model which includes the recipe title, user, and rating
+        """
         return f'{self.recipe.title} - {self.user.username} - {self.stars}'
     
 
 # comment model
 class Comment(models.Model):
+    """
+    Comment model for storing a user's comment on recipes. Includes information about the recipe, commenter's name, email, and the comment itself"""
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE,
                                related_name='comments')
     name = models.CharField(max_length=80)
@@ -87,16 +111,24 @@ class Comment(models.Model):
     
     @property
     def like_count(self):
+        """
+        Returns the number of likes a comment has received
+        """
         return self.commentlike_set.count()
 
     class Meta:
         ordering = ['-created_on']
 
     def __str__(self):
+        """
+        Returns a string representation of the comment model which includes the recipe title and commenter's user name.
+        """
         return f'{self.recipe.title} - {self.user.username}'
 
 
 class CommentLike(models.Model):
+    """
+    CommentLike model for storing a user's like on a comment. Ensures a user can only like a comment once"""
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -107,6 +139,9 @@ class CommentLike(models.Model):
 
 # favorite model
 class Favorite(models.Model):
+    """
+    Model for tracking a user's favorite recipes.
+    """
     user = models.ForeignKey(User, on_delete=models.CASCADE,
                              related_name='favorites')
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE,
@@ -116,10 +151,16 @@ class Favorite(models.Model):
         unique_together = [['user', 'recipe']]
 
     def __str__(self):
+        """
+        Returns a string representation of the favorite model which includes the recipe title and user name of who favorited the recipe.
+        """
         return f'{self.recipe.title} - {self.user.username}'
 
 
 class Category(models.Model):
+    """
+    Category model for organizing recipes into various categories. Includes information such as name, slug, image, and description
+    """
     name = models.CharField(max_length=250, unique=True)
     slug = models.SlugField(max_length=250, unique=True)
     image = CloudinaryField('image', default='placeholder')
@@ -131,9 +172,14 @@ class Category(models.Model):
         verbose_name_plural = 'categories'
 
     def save(self, *args, **kwargs):
+        """
+        Overrides the save method to automatically create a slug when a category is created
+        """
         if not self.slug:
             self.slug = slugify(self.name)
         super(Category,self).save(*args, **kwargs)
 
     def __str__(self):
+        """
+        Returns a string representation of the category model which is just its name"""
         return self.name
