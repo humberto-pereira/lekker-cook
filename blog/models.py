@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
 from django.utils.text import slugify
+from django.urls import reverse
 
 
 class Carousel(models.Model):
@@ -56,6 +57,12 @@ class Recipe(models.Model):
         Returns a string representation of the recipe model which includes the title
         """
         return self.title
+    
+    def get_absolute_url(self):
+        """
+        Returns the url for a recipe detail page
+        """
+        return reverse('recipe_detail', kwargs={'slug': self.slug})
     
     
     @property

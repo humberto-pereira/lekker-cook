@@ -22,5 +22,26 @@
         </div>
     </div>
 </div>
+<!-- Comments List -->
+<div>
+    <h2>Comments:</h2>
+    {% for comment in comments %}
+    <div>
+        <p><strong>Comment by:</strong> {{ comment.user.username }} </p>
+        <p>{{ comment.content }}</p>
+        <p>Posted on {{ comment.created_on }}</p>
+    </div>
+    {% empty %}
+    <p>No comments yet.</p>
+    {% endfor %}
+</div>
+<div>
+    <h2>Leave a Comment:</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
 
 {% endblock %}

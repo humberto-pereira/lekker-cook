@@ -1,10 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Category, Recipe, Carousel
+from .models import Category, Recipe, Carousel, Comment
+from .forms import CommentForm
 from django.db.models import Avg
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import logout, authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.urls import reverse
+from django.http import HttpResponseRedirect
+from .forms import CommentForm
+
 
 
 def category_list(request):
@@ -29,7 +33,7 @@ def category_list(request):
 
     return render(request, 'index.html', {'categories': category_data, 'carousel_items': carousel_items})
 
-
+@login_required
 def recipe_detail(request, slug):
     """
     Display a single recipe detail page with approved comments.
@@ -40,7 +44,30 @@ def recipe_detail(request, slug):
     """
     recipe = get_object_or_404(Recipe, slug=slug)
     comments = recipe.comments.filter(approved=True)  # only approved comments
-    return render(request, 'recipe_detail.html', {'recipe': recipe, 'comments': comments})
+    new_comment = None
+    if request.method == 'POST':
+        # A comment was posted
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+            # Create Comment object but don't save to database yet
+            new_comment = comment_form.save(commit=False)
+            # Assign the logged in user to the comment
+            new_comment.user = request.user
+            # Assign the current recipe to the comment
+            new_comment.recipe = recipe
+            # Save the comment to the database
+            new_comment.save()
+            return HttpResponseRedirect(recipe.get_absolute_url())
+    else:
+        comment_form = CommentForm()
+            
+
+    return render(request, 'recipe_detail.html', {
+        'recipe': recipe, 
+        'comments': comments,
+        'new_comment': new_comment,
+        'comment_form': comment_form
+    })
 
 
 def index(request):
