@@ -13,4 +13,6 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('accounts/', include('allauth.urls')),
+    path('edit_comment/<int:pk>/', views.edit_comment, name='edit_comment'),
+    path('delete_comment/<int:pk>/', views.delete_comment, name='delete_comment'),
 ]

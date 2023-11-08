@@ -7,6 +7,8 @@ from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponseRedirect
+from django.http import HttpResponseForbidden
+from django.urls import reverse
 from .forms import CommentForm
 
 
@@ -43,8 +45,10 @@ def recipe_detail(request, slug):
     :return: HttpResponse object with the rendered recipe_detail.html template
     """
     recipe = get_object_or_404(Recipe, slug=slug)
-    comments = recipe.comments.filter(approved=True)  # only approved comments
+    all_comments = recipe.comments.all()  # Get all comments for the recipe
     new_comment = None
+    # Initialize the form for both GET and POST requests
+    comment_form = CommentForm()
     if request.method == 'POST':
         # A comment was posted
         comment_form = CommentForm(data=request.POST)
@@ -58,13 +62,10 @@ def recipe_detail(request, slug):
             # Save the comment to the database
             new_comment.save()
             return HttpResponseRedirect(recipe.get_absolute_url())
-    else:
-        comment_form = CommentForm()
             
-
     return render(request, 'recipe_detail.html', {
         'recipe': recipe, 
-        'comments': comments,
+        'comments': all_comments,
         'new_comment': new_comment,
         'comment_form': comment_form
     })
@@ -130,4 +131,29 @@ def logout_view(request):
         #render the logout page if method is GET
         return render(request, 'registration/logout.html')
     
+@login_required
+def edit_comment(request, pk):
+    comment = get_object_or_404(Comment, pk=pk, user=request.user)   
+    if request.method == 'POST':
+        form = CommentForm(request.POST, instance=comment)
+        if form.is_valid():
+            edited_comment = form.save(commit=False)
+            # set approved to False to mark comment as not approved
+            edited_comment.approved = False
+            edited_comment.save()
+            messages.info(request, 'Your comment is awiting approval.')
+            return redirect('recipe_detail', slug=comment.recipe.slug)
+    else:
+        form = CommentForm(instance=comment)
+    return render(request, 'edit_comment.html', {'form': form}) 
+
+@login_required
+def delete_comment(request, pk):
+    comment = get_object_or_404(Comment, pk=pk, user=request.user)
+    recipe_slug = comment.recipe.slug
+    if request.method == 'POST':
+        comment.delete()
+        messages.success(request, ' your comment has been deleted.')
+        return redirect('recipe_detail', slug=recipe_slug)
+    return render(request, 'confirm_delete.html', {'comment': comment})
 

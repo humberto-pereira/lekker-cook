@@ -27,9 +27,18 @@
     <h2>Comments:</h2>
     {% for comment in comments %}
     <div class="individual-comment">
-        <p><strong>Comment by:</strong> {{ comment.user.username }} </p>
+        <p><strong>Comment by:</strong> {{ comment.user.username }}</p>
+        {% if not comment.approved %}
+        <div class="alert alert-info" role="alert">
+            Your comment is awaiting approval.
+        </div>
+        {% endif %}
         <p>{{ comment.content }}</p>
         <p>Posted on {{ comment.created_on }}</p>
+        {% if comment.user == request.user %}
+        <a href="{% url 'edit_comment' comment.pk %}">Edit</a>
+        <a href="{% url 'delete_comment' comment.pk %}">Delete</a>
+        {% endif %}
     </div>
     {% empty %}
     <p>No comments yet.</p>
