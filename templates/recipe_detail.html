@@ -39,6 +39,11 @@
         <a href="{% url 'edit_comment' comment.pk %}">Edit</a>
         <a href="{% url 'delete_comment' comment.pk %}">Delete</a>
         {% endif %}
+        <div class="like-container">
+            <button class="like-btn btn btn-outline-success" data-comment-id="{{ comment.id }}">
+                <i class="fas fa-thumbs-up"></i> Like </button>
+            <span id="likes-count-{{ comment.id }}" class="likes-count">{{ comment.likes.count }}</span>
+        </div>
     </div>
     {% empty %}
     <p>No comments yet.</p>

@@ -115,13 +115,14 @@ class Comment(models.Model):
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=False)
+    likes = models.ManyToManyField(User, related_name='comment_likes', blank=True)
     
     @property
     def like_count(self):
         """
         Returns the number of likes a comment has received
         """
-        return self.commentlike_set.count()
+        return self.likes.count()
 
     class Meta:
         ordering = ['-created_on']

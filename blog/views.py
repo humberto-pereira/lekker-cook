@@ -6,8 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.http import HttpResponseRedirect
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from .forms import CommentForm
 
@@ -156,4 +155,14 @@ def delete_comment(request, pk):
         messages.success(request, ' your comment has been deleted.')
         return redirect('recipe_detail', slug=recipe_slug)
     return render(request, 'confirm_delete.html', {'comment': comment})
+
+@login_required
+def like_comment(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+    if comment.likes.filter(id=request.user.id).exists():
+        comment.likes.remove(request.user)
+    else:
+        comment.likes.add(request.user)
+    return JsonResponse({'likes_count': comment.like_count})
+
 

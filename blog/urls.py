@@ -1,6 +1,7 @@
 from django.urls import path, include
 from . import views
 from django.contrib.auth import views as auth_views
+from .views import like_comment
 
 
 
@@ -15,4 +16,5 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('edit_comment/<int:pk>/', views.edit_comment, name='edit_comment'),
     path('delete_comment/<int:pk>/', views.delete_comment, name='delete_comment'),
+    path('like_comment/<int:comment_id>/', views.like_comment, name='like_comment'),
 ]
