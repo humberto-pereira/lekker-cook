@@ -12,8 +12,25 @@
     <!-- Recipe Title and Content -->
     <div class="row">
         <div class="col-12">
-            <h2>{{ recipe.title }}</h2>
-            <p><i class="fas fa-star"></i> {{ recipe.average_rating }} ({{ recipe.number_of_ratings }})</p>
+            <!-- Show average rating as numeric value -->
+            <div class="average-rating">
+                <span>Average Rating: {{ recipe.average_rating|floatformat:1 }}</span>
+            </div>
+
+            <!-- User's rating form -->
+            <form id="ratingForm" action="{% url 'rate_recipe' recipe.slug %}" method="post">
+                {% csrf_token %}
+                <div class="user-rating">
+                    <span>Your Rating: </span>
+                    {% for star in '12345' %}
+                    <i class="rating-star {% if user_rating and forloop.counter <= user_rating.stars %} fas {% else %} far {% endif %} fa-star"
+                        data-value="{{ star }}"></i>
+                    {% endfor %}
+                </div>
+                <input type="hidden" name="stars" id="starsInput" value="{{ user_rating.stars|default_if_none:'' }}">
+                <button type="submit" class="btn btn-primary">Rate</button>
+            </form>
+
             <p>{{ recipe.content }}</p>
 
             <button class="btn btn-outline-secondary">

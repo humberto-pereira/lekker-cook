@@ -17,4 +17,5 @@ urlpatterns = [
     path('edit_comment/<int:pk>/', views.edit_comment, name='edit_comment'),
     path('delete_comment/<int:pk>/', views.delete_comment, name='delete_comment'),
     path('like_comment/<int:comment_id>/', views.like_comment, name='like_comment'),
+    path('recipe/<slug:slug>/rate/', views.rate_recipe, name='rate_recipe'),
 ]

@@ -10,7 +10,7 @@
                     <img src="{{ recipe.featured_image.url }}" class="card-img-top" alt="{{ recipe.title }}" />
                     <div class="card-body">
                         <h5 class="card-title">{{ recipe.title }}</h5>
-                        <p><i class="fas fa-star"></i> {{ recipe.average_rating }} ({{ recipe.number_of_ratings }})</p>
+                        <p><i class="fas fa-star"></i> {{ recipe.average_rating|floatformat:1 }} ({{ recipe.number_of_ratings }})</p>
                         <button class="btn btn-outline-secondary">
                             <i class="fas fa-heart"></i> Favorite
                         </button>

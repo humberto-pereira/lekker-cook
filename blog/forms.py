@@ -1,5 +1,5 @@
 from django import forms
-from .models import Recipe, Category, Comment
+from .models import Recipe, Category, Comment, Rating
 
 
 class RecipeAdminForm(forms.ModelForm):
@@ -31,3 +31,10 @@ class CommentForm(forms.ModelForm):
         'cols': 30,
         })
     )
+        
+
+class RatingForm(forms.ModelForm):
+
+    class Meta:
+        model = Rating
+        fields = ('stars',)

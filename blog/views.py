@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Category, Recipe, Carousel, Comment
-from .forms import CommentForm
+from .models import Category, Recipe, Carousel, Comment, Rating
+from .forms import CommentForm, RatingForm
 from django.db.models import Avg
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import logout, authenticate, login
@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
-from .forms import CommentForm
+from django.views.decorators.http import require_POST
 
 
 
@@ -18,7 +18,6 @@ def category_list(request):
 
     param request: HttpRequest object
     return: HttpResponse object with the rendered category_list.html template
-
     """
     categories = Category.objects.all().prefetch_related('recipes')
     
@@ -37,7 +36,7 @@ def category_list(request):
 @login_required
 def recipe_detail(request, slug):
     """
-    Display a single recipe detail page with approved comments.
+    Display a single recipe detail page with approved comments and rating submission.
 
     param request: HttpRequest object
     param slug: Thej slug of the recipe to retrieve
@@ -48,8 +47,11 @@ def recipe_detail(request, slug):
     new_comment = None
     # Initialize the form for both GET and POST requests
     comment_form = CommentForm()
+    # Initialize the rating form for both GET and POST requests
+    rating_form = RatingForm()
+
     if request.method == 'POST':
-        # A comment was posted
+        # check if it's a comment submission
         comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
             # Create Comment object but don't save to database yet
@@ -61,12 +63,37 @@ def recipe_detail(request, slug):
             # Save the comment to the database
             new_comment.save()
             return HttpResponseRedirect(recipe.get_absolute_url())
-            
+        
+    if 'submit-rating' in request.POST:
+        # check if it's a rating submission
+        rating_form = RatingForm(data=request.POST)
+        if rating_form.is_valid():
+            # check if the user has already rated the recipe
+            rating_form = RatingForm(data=request.POST)
+            rating, created = Rating.objects.get_or_create(
+                recipe=recipe,
+                user=request.user,
+                defaults={'stars': rating_form.cleaned_data['stars']}
+            )
+            if not created:
+                # Rating already exists, update the existing stars
+                rating.stars = rating_form.cleaned_data['stars']
+                rating.save()
+                messages.success(request, 'Your rating has been updated.')
+        return HttpResponseRedirect(reverse('recipe_detail', args=[slug]))
+        #get the user existing rating if it exists
+    user_rating = None
+    if request.user.is_authenticated:
+        # check if the user has already rated the recipe
+        user_rating = Rating.objects.filter(recipe=recipe, user=request.user).first()
+
     return render(request, 'recipe_detail.html', {
         'recipe': recipe, 
         'comments': all_comments,
         'new_comment': new_comment,
-        'comment_form': comment_form
+        'comment_form': comment_form,
+        'rating_form': rating_form,
+        'user_rating': user_rating,
     })
 
 
@@ -98,7 +125,8 @@ def signup(request):
     Handle user registration
 
     param request: HttpRequest object
-    return: HttpResponse object with the rendered signup.html template or redirect to the home page if the user is logged in
+    return: HttpResponse object with the rendered signup.html template or 
+    redirect to the home page if the user is logged in
     """
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -120,7 +148,8 @@ def logout_view(request):
     Log out the user and redirect to the home page.
 
     param request: HttpRequest object
-    return: HttpResponse object with the rendered logout.html template or redirect to the home page if the user is logged out
+    return: HttpResponse object with the rendered logout.html template or
+    redirect to the home page if the user is logged out
     """
     if request.method == 'POST':
         logout(request)
@@ -166,3 +195,29 @@ def like_comment(request, comment_id):
     return JsonResponse({'likes_count': comment.like_count})
 
 
+@login_required
+@require_POST
+def rate_recipe(request, slug):
+    recipe = get_object_or_404(Recipe, slug=slug)
+    form = RatingForm(request.POST)
+    if form.is_valid():
+        # This gets the existing rating if it exists, or none otherwise
+        rating, created = Rating.objects.get_or_create(
+            user=request.user,
+            recipe=recipe,
+            defaults={'stars': form.cleaned_data['stars']}
+        )
+        if not created:
+            # Rating already exists, so update the stars and save
+            rating.stars = form.cleaned_data['stars']
+            rating.save()
+            message = 'Your rating has been updated.'
+        else:
+            message = 'Your rating has been submitted.'
+
+        # Refresh the recipe to update average rating
+        recipe.refresh_from_db()
+        return JsonResponse({'success': True, 'average_rating': recipe.average_rating, 'message': message})
+    else:
+        # If the form is not valid, send back the error messages
+        return JsonResponse({'success': False, 'errors': form.errors}, status=400)

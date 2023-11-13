@@ -70,7 +70,7 @@ class Recipe(models.Model):
         """
         Calculate and return the average rating for a recipe
         """
-        ratings = Rating.objects.filter(recipe=self)
+        ratings = self.ratings.all()
         total_ratings = ratings.count()
         if total_ratings > 0:
             total_stars = sum([rating.stars for rating in ratings])
