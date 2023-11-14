@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-5">
+    <h2>Your Favorites</h2>
+    <div class="row d-flex">
+        {% for favorite in favorites %}
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                <img src="{{ favorite.recipe.featured_image.url }}" class="card-img-top"
+                    alt="{{ favorite.recipe.title }}" />
+                <div class="card-body">
+                    <h5 class="card-title">{{ favorite.recipe.title }}</h5>
+                    <p><i class="fas fa-star"></i> {{ favorite.recipe.average_rating|floatformat:1 }} ({{
+                        favorite.recipe.number_of_ratings }})</p>
+                    <!-- Remove from favorites button -->
+                    <form action="{% url 'remove_favorite' favorite.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Remove from Favorites</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>You haven't added any recipes to your favorites yet.</p>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
