@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Category, Recipe, Carousel, Comment, Rating
+from .models import Category, Recipe, Carousel, Comment, Rating, Favorite
 from .forms import CommentForm, RatingForm
 from django.db.models import Avg
 from django.contrib.auth.forms import UserCreationForm
@@ -9,7 +9,6 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.views.decorators.http import require_POST
-
 
 
 def category_list(request):
@@ -221,3 +220,8 @@ def rate_recipe(request, slug):
     else:
         # If the form is not valid, send back the error messages
         return JsonResponse({'success': False, 'errors': form.errors}, status=400)
+
+@login_required
+def favorites(request):
+    user_favorites = Favorite.objects.filter(user=request.user)
+    return render(request, 'favorites.html', {'favorites': user_favorites})
