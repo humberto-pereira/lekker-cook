@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import Recipe, Rating, Comment, Category, Carousel
 from django_summernote.admin import SummernoteModelAdmin
-from .forms import RecipeAdminForm
+
 
 
 @admin.register(Recipe)
@@ -25,10 +25,16 @@ class CommentAdmin(admin.ModelAdmin):
     """
     Admin interface for the Comment model. Define the list display, search fields, list filter, and custom actions such as comment approval.
     """
-    list_display = ('name', 'recipe', 'content', 'created_on', 'approved')
+    list_display = ('user_name', 'recipe', 'content', 'created_on', 'approved')
     list_filter = ('approved', 'created_on')
     search_fields = ('name', 'content', 'email')
     actions = ['approve_comments']
+
+    def user_name(self, obj):
+        """
+        Display the name of the user who created the comment.
+        """
+        return obj.user.username
 
     def approve_comments(self, request, queryset):
         """
