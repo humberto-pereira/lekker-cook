@@ -1,5 +1,7 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
+
 
 <div class="container mt-5">
     <!-- Recipe Image -->
@@ -33,9 +35,16 @@
 
             <p>{{ recipe.content }}</p>
 
-            <button class="btn btn-outline-secondary">
-                <i class="fas fa-heart"></i> Favorite
-            </button>
+            <form action="{% url 'toggle_favorite' recipe.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-primary btn-sm">
+                    {% if recipe.id in favorited_recipe_ids %}
+                        <i class="fas fa-heart heart-color"></i> Remove from Favorites
+                    {% else %}
+                        <i class="far fa-heart"></i> Add to Favorites
+                    {% endif %}
+                </button>
+            </form>
         </div>
     </div>
 </div>

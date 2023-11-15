@@ -42,6 +42,10 @@ def recipe_detail(request, slug):
     :return: HttpResponse object with the rendered recipe_detail.html template
     """
     recipe = get_object_or_404(Recipe, slug=slug)
+    if request.user.is_authenticated:
+        favorited_recipe_ids = set(Favorite.objects.filter(user=request.user).values_list('recipe_id', flat=True))
+    else:
+        favorited_recipe_ids = set()
     all_comments = recipe.comments.all()  # Get all comments for the recipe
     new_comment = None
     # Initialize the form for both GET and POST requests
@@ -93,6 +97,7 @@ def recipe_detail(request, slug):
         'comment_form': comment_form,
         'rating_form': rating_form,
         'user_rating': user_rating,
+        'favorited_recipe_ids': favorited_recipe_ids,
     })
 
 
@@ -116,8 +121,15 @@ def category_detail(request, slug):
     """
     category = get_object_or_404(Category, slug=slug)
     recipes = Recipe.objects.filter(category=category).annotate(annotated_average_rating=Avg('ratings__stars')).order_by('-annotated_average_rating', '-created_date')
+    if request.user.is_authenticated:
+        favorited_recipe_ids = set(Favorite.objects.filter(user=request.user).values_list('recipe_id', flat=True))
+    else:
+        favorited_recipe_ids = set()
     return render(request, 'category_detail.html',
-                  {'category': category, 'recipes': recipes})
+                  {'category': category, 
+                   'recipes': recipes,
+                   'favorited_recipe_ids': favorited_recipe_ids,
+                   })
 
 def signup(request):
     """
@@ -221,5 +233,39 @@ def rate_recipe(request, slug):
         # If the form is not valid, send back the error messages
         return JsonResponse({'success': False, 'errors': form.errors}, status=400)
     
+@login_required
+def favorites(request):
+    user_favorites = Favorite.objects.filter(user=request.user)
+    return render(request, 'favorites.html', {'favorites': user_favorites})
 
-    
+@login_required
+def add_to_favorite(request, recipe_id):
+    recipe = get_object_or_404(Recipe, id=recipe_id)
+    favorite, created = Favorite.objects.get_or_create(user=request.user, recipe=recipe)
+    if created:
+        messages.success(request, 'Recipe added to favorites.')
+    else:
+        messages.info(request, 'Recipe already in favorites.')
+        # redirect to the same page
+    return redirect(request.META.get('HTTP_REFERER', 'home'))
+
+@login_required
+def remove_from_favorite(request, favorite_id):
+    favorite = get_object_or_404(Favorite, id=favorite_id, user=request.user)
+    favorite.delete()
+    messages.success(request, 'Recipe removed from favorites.')
+    # redirect to the same page
+    return redirect(request.META.get('HTTP_REFERER', 'home'))
+
+@login_required
+def toggle_favorite(request, recipe_id):
+    recipe = get_object_or_404(Recipe, id=recipe_id)
+    favorite, created = Favorite.objects.get_or_create(user=request.user, recipe=recipe)
+
+    if created:
+        messages.success(request, 'Recipe added to favorites.')
+    else:
+        favorite.delete()
+        messages.info(request, 'Recipe removed from favorites.')
+
+    return redirect(request.META.get('HTTP_REFERER', 'home'))

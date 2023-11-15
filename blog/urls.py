@@ -19,4 +19,7 @@ urlpatterns = [
     path('like_comment/<int:comment_id>/', views.like_comment, name='like_comment'),
     path('recipe/<slug:slug>/rate/', views.rate_recipe, name='rate_recipe'),
     path('favorites/', views.favorites, name='favorites'),
+    path('add_favorite/<int:recipe_id>/', views.add_to_favorite, name='add_to_favorite'),
+    path('remove_from_favorite/<int:favorite_id>/', views.remove_from_favorite, name='remove_from_favorite'),
+    path('toggle_favorite/<int:recipe_id>/', views.toggle_favorite, name='toggle_favorite'),
 ]

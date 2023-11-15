@@ -85,43 +85,53 @@ document.addEventListener('DOMContentLoaded', function() {
         updateUserRatingDisplay(parseInt(starsInput.value, 10));
     }
 
-    // Rating form submission
-    ratingForm.addEventListener('submit', function(e) {
-        e.preventDefault(); // Prevent the default form submission
+// Rating form submission
+ratingForm.addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevent the default form submission
 
-        const formData = new FormData(this);
-        const url = this.action;
+    const formData = new FormData(this);
+    const url = this.action;
 
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': getCsrfToken(),
-            },
-            body: formData,
-        })
-        .then(response => response.json())
-        .then(data => {
-            if(data.success) {
-                // Update the average rating display
-                document.querySelector('.average-rating span').textContent = `Average Rating: ${data.average_rating.toFixed(1)}`;
-            } else {
-                // Handle any errors
-                alert('There was an error submitting your rating');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCsrfToken(),
+        },
+        body: formData,
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.success) {
+            // Update the average rating display
+            document.querySelector('.average-rating span').textContent = `Average Rating: ${data.average_rating.toFixed(1)}`;
+        } else {
+            // Handle any errors
+            alert('There was an error submitting your rating');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
     });
+});
 
-    // Star click event for user rating
-    document.querySelectorAll('.user-rating .rating-star').forEach(star => {
-        star.addEventListener('click', function() {
-            const value = this.dataset.value;
-            starsInput.value = value; // Set the rating value
-            updateUserRatingDisplay(parseInt(value, 10)); // Update the display with the user's rating
+// Star click event for user rating
+document.querySelectorAll('.user-rating .rating-star').forEach(star => {
+    star.addEventListener('click', function() {
+        const value = this.dataset.value;
+        starsInput.value = value; // Set the rating value
+        updateUserRatingDisplay(parseInt(value, 10)); // Update the display with the user's rating
         });
     });
 });
 
-
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all the alert elements
+    const alerts = document.querySelectorAll('.alert-dismissible');
+    // set a timeout to remove the alert after 7 seconds
+    alerts.forEach(function(alert) {
+        setTimeout(function() {
+            alert.classList.remove('show');
+            setTimeout(() => alert.remove(), 150);
+        }, 7000);
+    });
+});

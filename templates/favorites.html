@@ -7,18 +7,26 @@
         {% for favorite in favorites %}
         <div class="col-12 col-md-6 col-lg-4 mb-4">
             <div class="card h-100">
+                {% if favorite.recipe.slug %}
+                <a href="{% url 'recipe_detail' slug=favorite.recipe.slug %}" class="text-decoration-none text-dark">
                 <img src="{{ favorite.recipe.featured_image.url }}" class="card-img-top"
                     alt="{{ favorite.recipe.title }}" />
                 <div class="card-body">
                     <h5 class="card-title">{{ favorite.recipe.title }}</h5>
-                    <p><i class="fas fa-star"></i> {{ favorite.recipe.average_rating|floatformat:1 }} ({{
-                        favorite.recipe.number_of_ratings }})</p>
+                    <p><i class="fas fa-star"></i> {{ favorite.recipe.average_rating|floatformat:1 }} of  ({{ favorite.recipe.number_of_ratings }})</p>
+                </a>
                     <!-- Remove from favorites button -->
-                    <form action="{% url 'remove_favorite' favorite.id %}" method="post">
+                    <form action="{% url 'remove_from_favorite' favorite.id %}" method="post">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-outline-danger btn-sm">Remove from Favorites</button>
                     </form>
                 </div>
+                {% else %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ favorite.recipe.title }}</h5>
+                    <p class="text-muted">This recipe currently has no detail view.</p>
+                </div>
+                {% endif %}
             </div>
         </div>
         {% empty %}

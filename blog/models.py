@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
 from django.utils.text import slugify
 from django.urls import reverse
-
+from django.conf import settings
 
 class Carousel(models.Model):
     """
@@ -150,10 +150,10 @@ class Favorite(models.Model):
     """
     Model for tracking a user's favorite recipes.
     """
-    user = models.ForeignKey(User, on_delete=models.CASCADE,
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
                              related_name='favorites')
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE,
-                               related_name='favorites')
+                               related_name='favorited_by')
 
     class Meta:
         unique_together = [['user', 'recipe']]

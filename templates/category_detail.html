@@ -1,22 +1,31 @@
 {% extends "base.html" %}
+{% load static %}  
 {% block content %}
 
 <div class="container mt-5">
     <div class="row d-flex">
         {% for recipe in recipes %}
         <div class="col-12 col-md-6 col-lg-4 mb-4">
-            <a href="{% url 'recipe_detail' slug=recipe.slug %}" class="text-decoration-none text-dark">
-                <div class="card h-100">
-                    <img src="{{ recipe.featured_image.url }}" class="card-img-top" alt="{{ recipe.title }}" />
-                    <div class="card-body">
-                        <h5 class="card-title">{{ recipe.title }}</h5>
-                  
-                        <p><i class="fas fa-star"></i> {{ recipe.average_rating|floatformat:1 }} ({{ recipe.number_of_ratings }})</p>
-                    </a>
-                    <button class="favorite-toggle btn btn-primary fa{{ ' fa-heart' }}{% if is_favorited %} fa-solid{% else %} fa-regular{% endif %}" data-recipe-id="{{ recipe.id }}"></button>
-
+            <div class="card h-100">
+                <a href="{% url 'recipe_detail' slug=recipe.slug %}" class="text-decoration-none text-dark">
+                <img src="{{ recipe.featured_image.url }}" class="card-img-top" alt="{{ recipe.title }}" />
+                <div class="card-body">
+                    <h5 class="card-title">{{ recipe.title }}</h5>
+                    <p><i class="fas fa-star"></i> {{ recipe.average_rating|floatformat:1 }} ({{ recipe.number_of_ratings }})</p>
+                </a>
+                    <form action="{% url 'toggle_favorite' recipe.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-primary btn-sm">
+                            {% if recipe.id in favorited_recipe_ids %}
+                                <i class="fas fa-heart heart-color"></i> Remove from Favorites
+                            {% else %}
+                                <i class="far fa-heart"></i> Add to Favorites
+                            {% endif %}
+                        </button>
+                    </form>
+                    
                 </div>
-          
+            </div>
         </div>
         {% endfor %}
     </div>
