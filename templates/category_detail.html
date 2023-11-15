@@ -13,10 +13,8 @@
                   
                         <p><i class="fas fa-star"></i> {{ recipe.average_rating|floatformat:1 }} ({{ recipe.number_of_ratings }})</p>
                     </a>
-                        <button class="btn btn-outline-secondary">
-                            <i class="fas fa-heart"></i> Favorite
-                        </button>
-                    </div>
+                    <button class="favorite-toggle btn btn-primary fa{{ ' fa-heart' }}{% if is_favorited %} fa-solid{% else %} fa-regular{% endif %}" data-recipe-id="{{ recipe.id }}"></button>
+
                 </div>
           
         </div>

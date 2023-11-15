@@ -220,8 +220,6 @@ def rate_recipe(request, slug):
     else:
         # If the form is not valid, send back the error messages
         return JsonResponse({'success': False, 'errors': form.errors}, status=400)
+    
 
-@login_required
-def favorites(request):
-    user_favorites = Favorite.objects.filter(user=request.user)
-    return render(request, 'favorites.html', {'favorites': user_favorites})
+    

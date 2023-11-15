@@ -124,31 +124,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Favorite recipes
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.add-favorite').forEach(button => {
-        button.addEventListener('click', (e) => {
-            e.preventDefault(); // Prevent the default button action
-            const recipeId = button.getAttribute('data-recipe-id');
-            fetch(`/add_favorite/${recipeId}/`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': getCsrfToken(), // Function to get token Value
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({recipe_id: recipeId})
-            })
-            .then(response => response.json())
-            .then(data => {
-                if(data => data.success) {
-                    // Change the button to indicate the recipe is a favorite
-                    button.classList.toggle("fa-solid fa-heart");
-                    button.classList.toggle("fa-regular fa-heart");
-                } else {
-                    alert('There was an error adding this recipe to your favorites.');
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        });
-    });
-});
+
