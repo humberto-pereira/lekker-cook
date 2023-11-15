@@ -15,7 +15,7 @@
         integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
-    </script>
+        </script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <!-- javascript -->
     <script src="{% static 'js/script.js' %}" defer></script>
@@ -29,7 +29,8 @@
 
     <nav class="navbar navbar-expand-lg navbar-light bg-white">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'home' %}"><span class="brand">Lekker</span><span class="brand red-logo">Cook <i class="fa-solid fa-bowl-food bowl"></i></span></a>
+            <a class="navbar-brand" href="{% url 'home' %}"><span class="brand">Lekker</span><span
+                    class="brand red-logo">Cook <i class="fa-solid fa-bowl-food bowl"></i></span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
                 aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -41,14 +42,14 @@
                     </li>
                     <!-- Categories Dropdown -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             {% trans "Categories" %}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="{% url 'category_detail' slug='meat' %}">{% trans "Meat" %}</a></li>
-                            <li><a class="dropdown-item" href="{% url 'category_detail' slug='fish' %}">{% trans "Fish" %}</a></li>
-                            <li><a class="dropdown-item" href="{% url 'category_detail' slug='dough' %}">{% trans "Dough" %}</a></li>
-                            <li><a class="dropdown-item" href="{% url 'category_detail' slug='dessert' %}">{% trans "Dessert" %}</a></li>
+                            {% for category in categories %}
+                            <li><a class="dropdown-item" href="{% url 'category_detail' slug=category.slug %}">{{category.name }}</a></li>
+                            {% endfor %}
                         </ul>
                     </li>
 
@@ -79,10 +80,10 @@
     {% if messages %}
     <div class="container mt-3">
         {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         {% endfor %}
     </div>
     {% endif %}
