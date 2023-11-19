@@ -21,7 +21,6 @@
     <script src="{% static 'js/script.js' %}" defer></script>
 </head>
 
-</head>
 
 <body class="d-flex flex-column h-100 main-bg">
 
@@ -41,6 +40,7 @@
                         <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
                     </li>
                     <!-- Categories Dropdown -->
+                    {% if not hide_categories_menu %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -48,11 +48,17 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             {% for category in categories %}
-                            <li><a class="dropdown-item" href="{% url 'category_detail' slug=category.slug %}">{{category.name }}</a></li>
+                                {% if category.slug %}
+                                    <li><a class="dropdown-item" href="{% url 'category_detail' slug=category.slug %}">{{ category.name }}</a></li>
+                                {% else %}
+                                    <!-- Optionally handle categories without slugs differently, e.g., show the name without a link -->
+                                    <li class="dropdown-item">{{ category.name }}</li>
+                                {% endif %}
                             {% endfor %}
                         </ul>
+                        
                     </li>
-
+                    {% endif %}
                     {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'favorites' %}">Favorites</a>

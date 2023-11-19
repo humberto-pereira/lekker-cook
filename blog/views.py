@@ -30,7 +30,11 @@ def category_list(request):
         })
     carousel_items = Carousel.objects.all()
 
-    return render(request, 'index.html', {'categories': category_data, 'carousel_items': carousel_items})
+    return render(request, 'index.html',{
+        'categories': category_data, 
+        'carousel_items': carousel_items,
+        'hide_categories_menu': True
+        })
 
 @login_required
 def recipe_detail(request, slug):
@@ -100,16 +104,6 @@ def recipe_detail(request, slug):
         'favorited_recipe_ids': favorited_recipe_ids,
     })
 
-
-def index(request):
-    """
-    The main page view that displays all the categories.
-
-    param request: HttpRequest object
-    return: HttpResponse object with the rendered index.html template
-    """
-    categories = Category.objects.all()
-    return render(request, 'index.html', {'categories': categories})
 
 def category_detail(request, slug):
     """

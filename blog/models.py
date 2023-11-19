@@ -170,7 +170,7 @@ class Category(models.Model):
     Category model for organizing recipes into various categories. Includes information such as name, slug, image, and description
     """
     name = models.CharField(max_length=250, unique=True)
-    slug = models.SlugField(max_length=250, unique=True)
+    slug = models.SlugField(max_length=250, unique=True, blank=False)
     image = CloudinaryField('image', default='placeholder')
     description = models.TextField()
 

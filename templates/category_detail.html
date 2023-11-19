@@ -3,14 +3,17 @@
 {% block content %}
 
 <div class="container mt-5">
+    <h2 class="card-title">{{ category.name }}</h2>
     <div class="row d-flex">
         {% for recipe in recipes %}
-        <div class="col-12 col-md-6 col-lg-4 mb-4">
+        <div class="col-12 col-md-6 col-lg-3 mb-4">
             <div class="card h-100">
                 <a href="{% url 'recipe_detail' slug=recipe.slug %}" class="text-decoration-none text-dark">
                 <img src="{{ recipe.featured_image.url }}" class="card-img-top" alt="{{ recipe.title }}" />
                 <div class="card-body">
-                    <h5 class="card-title">{{ recipe.title }}</h5>
+                    <h5 class="card-title">
+                        {{ recipe.title }}
+                    </h5>
                     <p><i class="fas fa-star"></i> {{ recipe.average_rating|floatformat:1 }} ({{ recipe.number_of_ratings }})</p>
                 </a>
                     <form action="{% url 'toggle_favorite' recipe.id %}" method="post">

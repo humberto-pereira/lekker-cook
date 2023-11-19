@@ -4,16 +4,17 @@
 
 
 <div class="container mt-5">
+    <h2 class="text-center mb-5">{{ recipe.title }}</h2>
     <!-- Recipe Image -->
     <div class="row mb-4 justify-content-center">
-        <div class="col-8 ">
+        <div class="col-8">
             <img src="{{ recipe.featured_image.url }}" alt="{{ recipe.title }}" class="img-fluid">
         </div>
     </div>
 
     <!-- Recipe Title and Content -->
     <div class="row">
-        <div class="col-12">
+        <div class="col-10">
             <!-- Show average rating as numeric value -->
             <div class="average-rating">
                 <span>Average Rating: {{ recipe.average_rating|floatformat:1 }}</span>
@@ -30,18 +31,18 @@
                     {% endfor %}
                 </div>
                 <input type="hidden" name="stars" id="starsInput" value="{{ user_rating.stars|default_if_none:'' }}">
-                <button type="submit" class="btn btn-primary">Rate</button>
+                <button type="submit" class="btn btn-primary mt-2 mb-5">Rate</button>
             </form>
-
-            <p>{{ recipe.content }}</p>
-
+            <div class="col-8">
+                <p>{{ recipe.content | safe }}</p>
+            </div>
             <form action="{% url 'toggle_favorite' recipe.id %}" method="post">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-outline-primary btn-sm">
+                <button type="submit" class="btn btn-outline-primary btn-sm mt-3">
                     {% if recipe.id in favorited_recipe_ids %}
-                        <i class="fas fa-heart heart-color"></i> Remove from Favorites
+                    <i class="fas fa-heart heart-color"></i> Remove from Favorites
                     {% else %}
-                        <i class="far fa-heart"></i> Add to Favorites
+                    <i class="far fa-heart"></i> Add to Favorites
                     {% endif %}
                 </button>
             </form>
@@ -49,7 +50,7 @@
     </div>
 </div>
 <!-- Comments List -->
-<div class="comments">
+<div class="comments col-8">
     <h2>Comments:</h2>
     {% for comment in comments %}
     <div class="individual-comment">

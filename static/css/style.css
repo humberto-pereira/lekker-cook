@@ -61,3 +61,7 @@ color: #4A4A4F;
 .heart-color {
     color: #e82d10;
 }
+
+.comment-form-textarea {
+    width: 40%;
+}
