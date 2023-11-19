@@ -13,7 +13,7 @@ class RecipeAdmin(SummernoteModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     search_fields = ['title', 'content']
     list_filter = ('status', 'created_date', 'author')
-    list_display = ('category', 'title', 'slug', 'status', 'created_date', 'author')
+    list_display = ('title', 'category', 'slug', 'status', 'created_date', 'author')
     summernote_fields = ('content')
 
 
