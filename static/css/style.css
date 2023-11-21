@@ -1,12 +1,22 @@
 body {
     background-color: #f3f5f9;
+    color: #4A4A4F;
+    font-family: Oswald;
 }
 
 .brand {
-    font-family: Lato, sans-serif;
-    font-size: 1.4rem;
+    font-family: Oswald, sans-serif;
+    font-size: 1.75rem;
     font-weight: 700;
     color: #4A4A4F;
+}
+
+li a {
+    font-size: 1.35rem;
+}
+
+.navbar .navbar-nav .nav-item .nav-link.active {
+    color: #e82d10;
 }
 
 .red-logo {
@@ -68,4 +78,8 @@ color: #4A4A4F;
 
 .fa-star {
     color: #ffdd00;
+}
+
+.welcome-text  p { 
+    color: #1414e9;
 }
