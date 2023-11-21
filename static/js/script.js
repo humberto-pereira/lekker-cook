@@ -134,6 +134,7 @@ ratingForm.addEventListener('submit', function(e) {
         if(data.success) {
             // Update the average rating display
             document.querySelector('.average-rating span').textContent = `Average Rating: ${data.average_rating.toFixed(1)}`;
+            displayMessage('Your rating was submitted successfully', 'success');
         } else {
             // Handle any errors
             alert('There was an error submitting your rating');
@@ -143,6 +144,16 @@ ratingForm.addEventListener('submit', function(e) {
         console.error('Error:', error);
     });
 });
+
+function displayMessage(text, type) {
+    const messageContainer = document.getElementById('message-container'); // You need to have a div with this id in your HTML
+    messageContainer.innerHTML = `<div class="alert alert-${type === 'error' ? 'danger' : 'success'}">${text}</div>`;
+    messageContainer.style.display = 'block';
+    // Hide the message after 5 seconds
+    setTimeout(function() {
+        messageContainer.style.display = 'none';
+    }, 5000);
+}
 
 /**
  * Attaches click event listeners to each star in the user-rating section. On clicking a star, updates a hidden input 

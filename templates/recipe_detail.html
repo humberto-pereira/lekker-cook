@@ -15,6 +15,10 @@
     <!-- Recipe Title and Content -->
     <div class="row">
         <div class="col-lg-10 col-sm-12">
+
+            <!-- success rating submit message -->
+            <div id="message-container" style="display: none;"></div>
+
             <!-- Show average rating as numeric value -->
             <div class="average-rating">
                 <span>Average Rating: {{ recipe.average_rating|floatformat:1 }}</span>

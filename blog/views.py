@@ -71,7 +71,7 @@ def recipe_detail(request, slug):
             new_comment.save()
             return HttpResponseRedirect(recipe.get_absolute_url())
         
-    if 'submit-rating' in request.POST:
+    elif 'submit-rating' in request.POST:
         # check if it's a rating submission
         rating_form = RatingForm(data=request.POST)
         if rating_form.is_valid():
@@ -86,8 +86,7 @@ def recipe_detail(request, slug):
                 # Rating already exists, update the existing stars
                 rating.stars = rating_form.cleaned_data['stars']
                 rating.save()
-                messages.success(request, 'Your rating has been updated.')
-        return HttpResponseRedirect(reverse('recipe_detail', args=[slug]))
+            return HttpResponseRedirect(reverse('recipe_detail', args=[slug]))
         #get the user existing rating if it exists
     user_rating = None
     if request.user.is_authenticated:
