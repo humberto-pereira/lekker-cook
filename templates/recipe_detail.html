@@ -7,14 +7,14 @@
     <h2 class="text-center mb-5">{{ recipe.title }}</h2>
     <!-- Recipe Image -->
     <div class="row mb-4 justify-content-center">
-        <div class="col-8">
+        <div class="col-lg-8 col-md-6 col-sm-12">
             <img src="{{ recipe.featured_image.url }}" alt="{{ recipe.title }}" class="img-fluid">
         </div>
     </div>
 
     <!-- Recipe Title and Content -->
     <div class="row">
-        <div class="col-10">
+        <div class="col-lg-10 col-sm-12">
             <!-- Show average rating as numeric value -->
             <div class="average-rating">
                 <span>Average Rating: {{ recipe.average_rating|floatformat:1 }}</span>
@@ -33,7 +33,7 @@
                 <input type="hidden" name="stars" id="starsInput" value="{{ user_rating.stars|default_if_none:'' }}">
                 <button type="submit" class="btn btn-primary mt-2 mb-5">Rate</button>
             </form>
-            <div class="col-8">
+            <div class="col-lg-10 col-sm-12">
                 <p>{{ recipe.content | safe }}</p>
             </div>
             <form action="{% url 'toggle_favorite' recipe.id %}" method="post">
@@ -50,7 +50,7 @@
     </div>
 </div>
 <!-- Comments List -->
-<div class="comments col-8">
+<div class="comments col-sm-12 col-lg-10">
     <h2>Comments:</h2>
     {% for comment in comments %}
     <div class="individual-comment">
@@ -81,7 +81,7 @@
     <p>No comments yet.</p>
     {% endfor %}
 </div>
-<div class="comment-box">
+<div class="comment-box col-sm-12 col-lg-8">
     <h2 class="comment-title">Leave a Comment:</h2>
     <form method="post">
         {% csrf_token %}

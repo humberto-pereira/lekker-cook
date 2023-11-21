@@ -34,7 +34,9 @@ class CommentForm(forms.ModelForm):
         fields = ('content',)
 
 class RatingForm(forms.ModelForm):
-
+    """
+    A ModelForm subclass for creating Rating objects. It exposes only the 'stars' field.
+    """
     class Meta:
         model = Rating
         fields = ('stars',)

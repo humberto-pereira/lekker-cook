@@ -5,6 +5,13 @@ window.addEventListener("load", function () {
 
 // This function gets the CSRF token from the cookies
 function getCsrfToken() {
+    /**
+     * Retrieve the CSRF token from the cookies. Iterates through the cookies
+     * returns the value of the "csrftoken" cookie if it exists.
+     * 
+     * Returns string: the CSRF token value if it exists, otherwise an empty string
+     */
+    
     const cookies = document.cookie.split(";");
     for (let i = 0; i < cookies.length; i++) {
         const cookie = cookies[i].trim().split("=");
@@ -15,7 +22,15 @@ function getCsrfToken() {
     return "";
 }
 
-// This script handles the "Like" button click event for comments.
+/**
+ * Attaches click event listeners to all elements with the 'like-btn' class after the DOM content is fully loaded. 
+ * On clicking a like button, sends a POST request to like the associated comment and updates the like count 
+ * displayed on the page. Uses the CSRF token obtained from cookies for the POST request.
+ *
+ * Utilizes:
+ * - `getCsrfToken()`: A function to retrieve the CSRF token from cookies.
+ * - Fetch API: To send asynchronous HTTP requests.
+ */
 document.addEventListener("DOMContentLoaded", function () {
     var likeButtons = document.querySelectorAll(".like-btn");
     var csrfToken = getCsrfToken(); // Get the CSRF token from the cookies
@@ -76,6 +91,14 @@ function updateUserRatingDisplay(rating) {
     });
 }
 
+/**
+ * Initializes the user's rating display when the DOM content is fully loaded. Retrieves the user's 
+ * last rating from a hidden input field and updates the rating display accordingly.
+ *
+ * Utilizes:
+ * - `updateUserRatingDisplay(rating)`: A function to visually update the rating display based on the provided rating.
+ */
+
 document.addEventListener('DOMContentLoaded', function() {
     const ratingForm = document.getElementById('ratingForm');
     const starsInput = document.getElementById('starsInput');
@@ -85,7 +108,14 @@ document.addEventListener('DOMContentLoaded', function() {
         updateUserRatingDisplay(parseInt(starsInput.value, 10));
     }
 
-// Rating form submission
+/**
+ * Attaches an event listener to the rating form to handle its submission. Prevents the default form submission, 
+ * sends a POST request with the rating data, and updates the UI based on the server's response.
+ *
+ * Utilizes:
+ * - Fetch API: To send asynchronous HTTP POST requests.
+ * - `getCsrfToken()`: To retrieve the CSRF token for the POST request.
+ */
 ratingForm.addEventListener('submit', function(e) {
     e.preventDefault(); // Prevent the default form submission
 
@@ -114,7 +144,13 @@ ratingForm.addEventListener('submit', function(e) {
     });
 });
 
-// Star click event for user rating
+/**
+ * Attaches click event listeners to each star in the user-rating section. On clicking a star, updates a hidden input 
+ * field with the rating value and calls a function to visually update the rating display.
+ *
+ * Utilizes:
+ * - `updateUserRatingDisplay(rating)`: Function to visually reflect the user's selected rating.
+ */
 document.querySelectorAll('.user-rating .rating-star').forEach(star => {
     star.addEventListener('click', function() {
         const value = this.dataset.value;
@@ -124,6 +160,10 @@ document.querySelectorAll('.user-rating .rating-star').forEach(star => {
     });
 });
 
+/**
+ * Automatically dismisses any dismissible alert elements on the page 7 seconds after the DOM content is fully loaded. 
+ * This is achieved by removing the 'show' class and then removing the alert element from the DOM.
+ */
 document.addEventListener('DOMContentLoaded', function() {
     // Get all the alert elements
     const alerts = document.querySelectorAll('.alert-dismissible');

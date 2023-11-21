@@ -63,5 +63,9 @@ color: #4A4A4F;
 }
 
 .comment-form-textarea {
-    width: 40%;
+    width: 80%;
+}
+
+.fa-star {
+    color: #ffdd00;
 }

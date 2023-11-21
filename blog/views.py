@@ -166,6 +166,14 @@ def logout_view(request):
     
 @login_required
 def edit_comment(request, pk):
+    """
+    Alllow users to edit their own comments. On POSt, updates and marks the comment as not approved.
+    redirecting to the recipe detail page.
+    param request (HttpRequest): The request object containing the request data
+    pk (int): Primary key of the comment to be edited 
+
+    Returns: HttpResponse edit comment form or a redirect to the recipe detail page
+    """
     comment = get_object_or_404(Comment, pk=pk, user=request.user)   
     if request.method == 'POST':
         form = CommentForm(request.POST, instance=comment)
@@ -182,6 +190,14 @@ def edit_comment(request, pk):
 
 @login_required
 def delete_comment(request, pk):
+    """
+    Allow authenticated users to delete their own comments. On POST, deletes the comment and redirects to the recipe detail page. on GET, displays a confirmation page.
+
+    param request (HttpRequest): The request object containing the request data
+    pk (int): Primary key of the comment to be deleted
+
+    returns: HttpResponse confirmation page or a redirect to the recipe detail page
+    """
     comment = get_object_or_404(Comment, pk=pk, user=request.user)
     recipe_slug = comment.recipe.slug
     if request.method == 'POST':
@@ -192,6 +208,14 @@ def delete_comment(request, pk):
 
 @login_required
 def like_comment(request, comment_id):
+    """
+    Allow authenticated users to like comments. On POST, adds or removes the user from the comment's likes and returns the updated like count.
+
+    param request (HttpRequest): The request object containing the request data
+    comment_id (int): Primary key of the comment to be liked
+
+    returns: JsonResponse containing the updated like count
+    """
     comment = get_object_or_404(Comment, id=comment_id)
     if comment.likes.filter(id=request.user.id).exists():
         comment.likes.remove(request.user)
@@ -203,6 +227,14 @@ def like_comment(request, comment_id):
 @login_required
 @require_POST
 def rate_recipe(request, slug):
+    """
+    Allow authenticated users to rate recipes. On POST, creates or updates the rating and returns the updated average rating.
+
+    param request (HttpRequest): The request object containing the request data
+    slug (str): The slug of the recipe to be rated
+
+    returns: JsonResponse containing the updated average rating
+    """
     recipe = get_object_or_404(Recipe, slug=slug)
     form = RatingForm(request.POST)
     if form.is_valid():
@@ -229,11 +261,26 @@ def rate_recipe(request, slug):
     
 @login_required
 def favorites(request):
+    """
+    Display a list of the user's favorite recipes.
+
+    param request: HttpRequest object
+
+    return: HttpResponse object with the rendered favorites.html template    
+    """
     user_favorites = Favorite.objects.filter(user=request.user)
     return render(request, 'favorites.html', {'favorites': user_favorites})
 
 @login_required
 def add_to_favorite(request, recipe_id):
+    """
+    Add a recipe to the user's favorites.
+
+    param request: HttpRequest object
+    param recipe_id: The id of the recipe to add to favorites
+
+    return: HttpResponse redirect to the previous page or the home page
+    """
     recipe = get_object_or_404(Recipe, id=recipe_id)
     favorite, created = Favorite.objects.get_or_create(user=request.user, recipe=recipe)
     if created:
@@ -245,6 +292,14 @@ def add_to_favorite(request, recipe_id):
 
 @login_required
 def remove_from_favorite(request, favorite_id):
+    """
+    Remove a recipe from the user's favorites.
+
+    param request: HttpRequest object
+    param favorite_id: The id of the favorite to be removed
+
+    return: HttpResponse redirect to the previous page or the home page
+    """
     favorite = get_object_or_404(Favorite, id=favorite_id, user=request.user)
     favorite.delete()
     messages.success(request, 'Recipe removed from favorites.')
@@ -253,6 +308,14 @@ def remove_from_favorite(request, favorite_id):
 
 @login_required
 def toggle_favorite(request, recipe_id):
+    """
+    Toggle the favorite status of a recipe. If the recipe is already a favorite, remove it. If it is not a favorite, add it.
+
+    param request: HttpRequest object
+    param recipe_id: The id of the recipe to toggle
+
+    return: HttpResponse redirect to the previous page or the home page
+    """
     recipe = get_object_or_404(Recipe, id=recipe_id)
     favorite, created = Favorite.objects.get_or_create(user=request.user, recipe=recipe)
 
