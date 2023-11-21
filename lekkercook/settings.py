@@ -150,6 +150,7 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # login redirect URL
 LOGIN_REDIRECT_URL = 'home'
+LOGIN_URL = 'login'
 
 AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',

@@ -11,7 +11,7 @@ urlpatterns = [
     path('category/<slug:slug>/', views.category_detail, name='category_detail'),
     #  Login register and logout views
     path('signup/', views.signup, name='signup'),
-    path('login/', auth_views.LoginView.as_view(), name='login'),
+    path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('accounts/', include('allauth.urls')),
     path('edit_comment/<int:pk>/', views.edit_comment, name='edit_comment'),
