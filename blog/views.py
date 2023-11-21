@@ -36,7 +36,7 @@ def category_list(request):
         'hide_categories_menu': True
         })
 
-
+@login_required
 def recipe_detail(request, slug):
     """
     Display a single recipe detail page with approved comments and rating submission.
@@ -50,15 +50,12 @@ def recipe_detail(request, slug):
         favorited_recipe_ids = set(Favorite.objects.filter(user=request.user).values_list('recipe_id', flat=True))
     else:
         favorited_recipe_ids = set()
-
     all_comments = recipe.comments.all()  # Get all comments for the recipe
     new_comment = None
     # Initialize the form for both GET and POST requests
     comment_form = CommentForm()
     # Initialize the rating form for both GET and POST requests
     rating_form = RatingForm()
-    # Initialize the user rating to None
-    user_rating = None
 
     if request.method == 'POST':
         # check if it's a comment submission
@@ -89,6 +86,7 @@ def recipe_detail(request, slug):
                 # Rating already exists, update the existing stars
                 rating.stars = rating_form.cleaned_data['stars']
                 rating.save()
+
             return HttpResponseRedirect(reverse('recipe_detail', args=[slug]))
         #get the user existing rating if it exists
     user_rating = None
