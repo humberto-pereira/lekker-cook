@@ -19,27 +19,30 @@ def category_list(request):
     return: HttpResponse object with the rendered category_list.html template
     """
     categories = Category.objects.all().prefetch_related('recipes')
-    
+
     category_data = []
     for category in categories:
         recipes = Recipe.objects.filter(category=category)
         category_data.append({
             'category': category,
             'recipes_count': recipes.count(),
-            'recipes': recipes[:5],  # Display up to 5 recipes from each category
+            'recipes': recipes[:5],  # Display up to 5 recipes from each
+                                     # category
         })
     carousel_items = Carousel.objects.all()
 
-    return render(request, 'index.html',{
-        'categories': category_data, 
+    return render(request, 'index.html', {
+        'categories': category_data,
         'carousel_items': carousel_items,
         'hide_categories_menu': True
         })
 
+
 @login_required
 def recipe_detail(request, slug):
     """
-    Display a single recipe detail page with approved comments and rating submission.
+    Display a single recipe detail page with approved comments
+    and rating submission.
 
     param request: HttpRequest object
     param slug: Thej slug of the recipe to retrieve
@@ -47,7 +50,8 @@ def recipe_detail(request, slug):
     """
     recipe = get_object_or_404(Recipe, slug=slug)
     if request.user.is_authenticated:
-        favorited_recipe_ids = set(Favorite.objects.filter(user=request.user).values_list('recipe_id', flat=True))
+        favorited_recipe_ids = set(Favorite.objects.filter(
+            user=request.user).values_list('recipe_id', flat=True))
     else:
         favorited_recipe_ids = set()
     all_comments = recipe.comments.all()  # Get all comments for the recipe
@@ -70,7 +74,7 @@ def recipe_detail(request, slug):
             # Save the comment to the database
             new_comment.save()
             return HttpResponseRedirect(recipe.get_absolute_url())
-        
+
     elif 'submit-rating' in request.POST:
         # check if it's a rating submission
         rating_form = RatingForm(data=request.POST)
@@ -88,14 +92,15 @@ def recipe_detail(request, slug):
                 rating.save()
 
             return HttpResponseRedirect(reverse('recipe_detail', args=[slug]))
-        #get the user existing rating if it exists
+        # get the user existing rating if it exists
     user_rating = None
     if request.user.is_authenticated:
         # check if the user has already rated the recipe
-        user_rating = Rating.objects.filter(recipe=recipe, user=request.user).first()
+        user_rating = Rating.objects.filter(recipe=recipe,
+                                            user=request.user).first()
 
     return render(request, 'recipe_detail.html', {
-        'recipe': recipe, 
+        'recipe': recipe,
         'comments': all_comments,
         'new_comment': new_comment,
         'comment_form': comment_form,
@@ -107,30 +112,37 @@ def recipe_detail(request, slug):
 
 def category_detail(request, slug):
     """
-    Display the detail view of a category and its associated recipes ordered by rating.
+    Display the detail view of a category and its associated
+    recipes ordered by rating.
 
     param request: HttpRequest object
     param slug: The slug of the category to retrieve
-    return: HttpResponse object with the rendered category_detail.html template
+    return: HttpResponse object with the rendered
+    category_detail.html template
     """
     category = get_object_or_404(Category, slug=slug)
-    recipes = Recipe.objects.filter(category=category).annotate(annotated_average_rating=Avg('ratings__stars')).order_by('-annotated_average_rating', '-created_date')
+    recipes = Recipe.objects.filter(category=category).annotate(
+        annotated_average_rating=Avg('ratings__stars'
+                                     )).order_by('-annotated_average_rating',
+                                                 '-created_date')
     if request.user.is_authenticated:
-        favorited_recipe_ids = set(Favorite.objects.filter(user=request.user).values_list('recipe_id', flat=True))
+        favorited_recipe_ids = set(Favorite.objects.filter(user=request.user)
+                                   .values_list('recipe_id', flat=True))
     else:
         favorited_recipe_ids = set()
     return render(request, 'category_detail.html',
-                  {'category': category, 
+                  {'category': category,
                    'recipes': recipes,
                    'favorited_recipe_ids': favorited_recipe_ids,
                    })
+
 
 def signup(request):
     """
     Handle user registration
 
     param request: HttpRequest object
-    return: HttpResponse object with the rendered signup.html template or 
+    return: HttpResponse object with the rendered signup.html template or
     redirect to the home page if the user is logged in
     """
     if request.method == 'POST':
@@ -148,6 +160,7 @@ def signup(request):
         form = UserCreationForm()
     return render(request, 'registration/signup.html', {'form': form})
 
+
 def logout_view(request):
     """
     Log out the user and redirect to the home page.
@@ -161,20 +174,23 @@ def logout_view(request):
         messages.info(request, 'You have been logged out.')
         return redirect('home')
     else:
-        #render the logout page if method is GET
+        # render the logout page if method is GET
         return render(request, 'registration/logout.html')
-    
+
+
 @login_required
 def edit_comment(request, pk):
     """
-    Alllow users to edit their own comments. On POSt, updates and marks the comment as not approved.
+    Alllow users to edit their own comments. On POSt, updates and marks
+    the comment as not approved.
     redirecting to the recipe detail page.
     param request (HttpRequest): The request object containing the request data
-    pk (int): Primary key of the comment to be edited 
+    pk (int): Primary key of the comment to be edited
 
-    Returns: HttpResponse edit comment form or a redirect to the recipe detail page
+    Returns: HttpResponse edit comment form or a redirect to the
+    recipe detail page
     """
-    comment = get_object_or_404(Comment, pk=pk, user=request.user)   
+    comment = get_object_or_404(Comment, pk=pk, user=request.user)
     if request.method == 'POST':
         form = CommentForm(request.POST, instance=comment)
         if form.is_valid():
@@ -186,17 +202,21 @@ def edit_comment(request, pk):
             return redirect('recipe_detail', slug=comment.recipe.slug)
     else:
         form = CommentForm(instance=comment)
-    return render(request, 'edit_comment.html', {'form': form}) 
+    return render(request, 'edit_comment.html', {'form': form})
+
 
 @login_required
 def delete_comment(request, pk):
     """
-    Allow authenticated users to delete their own comments. On POST, deletes the comment and redirects to the recipe detail page. on GET, displays a confirmation page.
+    Allow authenticated users to delete their own comments. On POST,
+    deletes the comment and redirects to the recipe detail page. on GET,
+    displays a confirmation page.
 
     param request (HttpRequest): The request object containing the request data
     pk (int): Primary key of the comment to be deleted
 
-    returns: HttpResponse confirmation page or a redirect to the recipe detail page
+    returns: HttpResponse confirmation page or a redirect to the
+    recipe detail page
     """
     comment = get_object_or_404(Comment, pk=pk, user=request.user)
     recipe_slug = comment.recipe.slug
@@ -206,10 +226,13 @@ def delete_comment(request, pk):
         return redirect('recipe_detail', slug=recipe_slug)
     return render(request, 'confirm_delete.html', {'comment': comment})
 
+
 @login_required
 def like_comment(request, comment_id):
     """
-    Allow authenticated users to like comments. On POST, adds or removes the user from the comment's likes and returns the updated like count.
+    Allow authenticated users to like comments. On POST, adds or
+    removes the user from the comment's likes and
+    returns the updated like count.
 
     param request (HttpRequest): The request object containing the request data
     comment_id (int): Primary key of the comment to be liked
@@ -228,9 +251,11 @@ def like_comment(request, comment_id):
 @require_POST
 def rate_recipe(request, slug):
     """
-    Allow authenticated users to rate recipes. On POST, creates or updates the rating and returns the updated average rating.
+    Allow authenticated users to rate recipes. On POST, creates
+    or updates the rating and returns the updated average rating.
 
-    param request (HttpRequest): The request object containing the request data
+    param request (HttpRequest): The request object containing
+    the request data
     slug (str): The slug of the recipe to be rated
 
     returns: JsonResponse containing the updated average rating
@@ -254,11 +279,14 @@ def rate_recipe(request, slug):
 
         # Refresh the recipe to update average rating
         recipe.refresh_from_db()
-        return JsonResponse({'success': True, 'average_rating': recipe.average_rating, 'message': message})
+        return JsonResponse({'success': True, 'average_rating':
+                             recipe.average_rating, 'message': message})
     else:
         # If the form is not valid, send back the error messages
-        return JsonResponse({'success': False, 'errors': form.errors}, status=400)
-    
+        return JsonResponse({'success': False, 'errors':
+                             form.errors}, status=400)
+
+
 @login_required
 def favorites(request):
     """
@@ -266,10 +294,11 @@ def favorites(request):
 
     param request: HttpRequest object
 
-    return: HttpResponse object with the rendered favorites.html template    
+    return: HttpResponse object with the rendered favorites.html template
     """
     user_favorites = Favorite.objects.filter(user=request.user)
     return render(request, 'favorites.html', {'favorites': user_favorites})
+
 
 @login_required
 def add_to_favorite(request, recipe_id):
@@ -282,13 +311,15 @@ def add_to_favorite(request, recipe_id):
     return: HttpResponse redirect to the previous page or the home page
     """
     recipe = get_object_or_404(Recipe, id=recipe_id)
-    favorite, created = Favorite.objects.get_or_create(user=request.user, recipe=recipe)
+    favorite, created = Favorite.objects.get_or_create(user=request.user,
+                                                       recipe=recipe)
     if created:
         messages.success(request, 'Recipe added to favorites.')
     else:
         messages.info(request, 'Recipe already in favorites.')
         # redirect to the same page
     return redirect(request.META.get('HTTP_REFERER', 'home'))
+
 
 @login_required
 def remove_from_favorite(request, favorite_id):
@@ -306,10 +337,12 @@ def remove_from_favorite(request, favorite_id):
     # redirect to the same page
     return redirect(request.META.get('HTTP_REFERER', 'home'))
 
+
 @login_required
 def toggle_favorite(request, recipe_id):
     """
-    Toggle the favorite status of a recipe. If the recipe is already a favorite, remove it. If it is not a favorite, add it.
+    Toggle the favorite status of a recipe. If the recipe is already a
+    favorite, remove it. If it is not a favorite, add it.
 
     param request: HttpRequest object
     param recipe_id: The id of the recipe to toggle
@@ -317,8 +350,8 @@ def toggle_favorite(request, recipe_id):
     return: HttpResponse redirect to the previous page or the home page
     """
     recipe = get_object_or_404(Recipe, id=recipe_id)
-    favorite, created = Favorite.objects.get_or_create(user=request.user, recipe=recipe)
-
+    favorite, created = Favorite.objects.get_or_create(user=request.user,
+                                                       recipe=recipe)
     if created:
         messages.success(request, 'Recipe added to favorites.')
     else:
