@@ -1,110 +1,146 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# LekkerCook: A Culinary Journey Awaits
+![Home Page](lekkercook/documentation/images/device-mockup.png)
+- LekkerCook is a dynamic cooking platform designed for food enthusiasts who seek a blend of flavor, and creativity. It's more than just a recipe site; it's a culinary community where passion for cooking is shared and celebrated.
+<p>
+    <a href="https://jigsaw.w3.org/css-validator/check/referer">
+        <img style="border:0;width:88px;height:31px"
+            src="https://jigsaw.w3.org/css-validator/images/vcss"
+            alt="CSS válido!" />
+    </a>
+</p>
+## Wireframes
 
-Welcome USER_NAME,
+#### Mobile Wireframes
+![Mobil Wireframes](lekkercook/documentation/images/wireframes/smartphone_group.png)
+- These were the initial wireframes on what the mobile version was based on.
 
-This is the Code Institute student template for Gitpod. We have preinstalled all of the tools you need to get started. It's perfectly ok to use this template as the basis for your project submissions.
+#### Desktop Wireframes
+![Desktop Wireframes](lekkercook/documentation/images/wireframes/desktop_group.png)
+-These were the initial wireframes on what the desktop version was based on.
 
-You can safely delete this README.md file, or change it for your own project. Please do read it at least once, though! It contains some important information about Gitpod and the extensions we use. Some of this information has been updated since the video content was created. The last update to this file was: **September 1, 2021**
+## Design
+#### Color Palette
+![color palette](lekkercook/documentation/images/design/palette.png) 
+- Background color: f3f5f9
+- Navbar and footer: ffffff 
+- Logo, footer, and body text: 4a4a4f
+- logo: e82d10
+- stars: ffdd00
 
-## Gitpod Reminders
+#### Typography
+- Oswald
 
-To run a frontend (HTML, CSS, Javascript only) application in Gitpod, in the terminal, type:
+## User Stories:
 
-`python3 -m http.server`
+- View the categories list: As a Site User, I can view a list of recipe categories so that I can choose one category of recipes.
 
-A blue button should appear to click: _Make Public_,
+- View the recipes list: As a Site User, I can view a list of recipes from a category so that I can select one recipe. 
 
-Another blue button should appear to click: _Open Browser_.
+- Open a recipe post: As a Site User, I can click on a recipe post so that I can read the full recipe.
 
-To run a backend Python file, type `python3 app.py`, if your Python file is named `app.py` of course.
+- View likes: As a Site User / Admin, I can view the number of likes on each comment so that I can read the highest-rated comments
 
-A blue button should appear to click: _Make Public_,
+- View comments: As a Site User / Admin, I can view comments on an individual post so that I can read the conversation and read the recipe feedback from other cooking chefs
 
-Another blue button should appear to click: _Open Browser_.
+- Rate a recipe: As a Site User, I can view the recipe rating given by other users so that I can see which recipe tastes better.
 
-In Gitpod you have superuser security privileges by default. Therefore you do not need to use the `sudo` (superuser do) command in the bash terminal in any of the lessons.
+- View a list of the highest-rated recipes: As a Site User / Admin, I can view a list of the highest-rated recipe posts so that I can see which is the most popular and tasty in the navigation bar.
 
-To log into the Heroku toolbelt CLI:
+- My favorite recipes: As a Site User, I can add a recipe to my favorites page so that I can have a list of my favorite recipes
 
-1. Log in to your Heroku account and go to *Account Settings* in the menu under your avatar.
-2. Scroll down to the *API Key* and click *Reveal*
-3. Copy the key
-4. In Gitpod, from the terminal, run `heroku_config`
-5. Paste in your API key when asked
+- Account registration: As a Site User, I can register an account so that I can comment, rate recipes, and like comments from other users
 
-You can now use the `heroku` CLI program - try running `heroku apps` to confirm it works. This API key is unique and private to you so do not share it. If you accidentally make it public then you can create a new one with _Regenerate API Key_.
+- Rate a recipe: As a Site User, I can rate a recipe so that I can help other users find the best recipe
 
-------
+- Update and delete a post: As a Site User I can update and delete my comments so that I can correct typos or delete them if I change my mind.
 
-## Release History
+- Like / Unlike: As a Site User, I can like or unlike other users comments so that I can interact with the community.
 
-We continually tweak and adjust this template to help give you the best experience. Here is the version history:
+- Manage posts and images: As a Site Admin, I can create, read, update, and delete posts and images so that I can manage my blog content.
 
-**September 20 2023:** Update Python version to 3.9.17.
+- Create drafts: As a Site Admin, I can create draft posts so that I can finish writing the content later.
 
-**September 1 2021:** Remove `PGHOSTADDR` environment variable.
+- Approve comments: As a Site Admin, I can approve or disapprove comments so that I can filter out the comments.
 
-**July 19 2021:** Remove `font_fix` script now that the terminal font issue is fixed.
 
-**July 2 2021:** Remove extensions that are not available in Open VSX.
+## Features:
 
-**June 30 2021:** Combined the P4 and P5 templates into one file, added the uptime script. See the FAQ at the end of this file.
+### Home Page "Landing Page"
 
-**June 10 2021:** Added: `font_fix` script and alias to fix the Terminal font issue
+#### logged in nav-bar
+ ![NavBar Logged-in](lekkercook/documentation/images/features/home/logged-in-navbar.png)
+- When logged in, the nav bar shows the LekkerCook logo that, when clicked, redirects to the home page, the same behavior as the Home item; next, we have the categories dropdown menu containing all the recipes categories of the site. Next, we have the favorites
+item that redirect to the user-favorites recipes page, and the log-out how the name suggests logs the user out.
 
-**May 10 2021:** Added `heroku_config` script to allow Heroku API key to be stored as an environment variable.
+#### Logged out nav-bar
+ ![NavBar Logged-out](lekkercook/documentation/images/features/home/logged-out-navbar.png)
+ - When logged-out, the navbar shows the login and signUp options. The favorites item is not displayed when you are not logged-in because this feature is available only to logged-in users, and all the other nav bar features behave as logged-in.
 
-**April 7 2021:** Upgraded the template for VS Code instead of Theia.
+#### Hamburger menu
+ ![Hamburger Menu](lekkercook/documentation/images/features/home/hamburger-menu.png)
+- Medium to small screens, we have the hamburger menu with the same features.
 
-**October 21 2020:** Versions of the HTMLHint, Prettier, Bootstrap4 CDN and Auto Close extensions updated. The Python extension needs to stay the same version for now.
+#### Home Carousel
+![Home carousel](lekkercook/documentation/images/features/home/carousel.png)
+- The carousel displays sliding images with subtitles. It's intended to give the user a grasp of what is available on the site. Its content is CRUD manageable on the admin panel. The carousel is only displayed on 'Home' (landing page) and on large screens.
 
-**October 08 2020:** Additional large Gitpod files (`core.mongo*` and `core.python*`) are now hidden in the Explorer, and have been added to the `.gitignore` by default.
+#### Welcome message 
+![Welcome message](lekkercook/documentation/images/features/home/welcome-text.png)
+- The welcome message is a short description of LekkerCook's philosophy, features, and goals and motivates the users to sign up and join the LekkerCook community. 
 
-**September 22 2020:** Gitpod occasionally creates large `core.Microsoft` files. These are now hidden in the Explorer. A `.gitignore` file has been created to make sure these files will not be committed, along with other common files.
+#### Category Cards
+![Category Cards](lekkercook/documentation/images/features/home/category-cards.png)
+- The categorys cards divide recipes into categories, for example, meat, fish, dessert... and so on. It has an appealing image and an inspiring text that intends to instigate user curiosity and cook passion. The layout is Bootstrap responsive on small medium and large screens. The category cards are CRUD manageable on the admin panel, so new categories can be created, updated, or deleted, and the administrator has complete control over this feature.
 
-**April 16 2020:** The template now automatically installs MySQL instead of relying on the Gitpod MySQL image. The message about a Python linter not being installed has been dealt with, and the set-up files are now hidden in the Gitpod file explorer.
+#### Category Cards Small Screens
+![Category Cards Small](lekkercook/documentation/images/features/home/category-cards-small.png)
+- An example of the cards on a small screen device
 
-**April 13 2020:** Added the _Prettier_ code beautifier extension instead of the code formatter built-in to Gitpod.
+#### Footer
+![Footer](lekkercook/documentation/images/features/home/footer.png)
+- The footer is simple; it has social media links where users can interact and make contact, letting us know what is in the user's mind and helping us to develop an even better solution.
 
-**February 2020:** The initialisation files now _do not_ auto-delete. They will remain in your project. You can safely ignore them. They just make sure that your workspace is configured correctly each time you open it. It will also prevent the Gitpod configuration popup from appearing.
+### Category Page
+- Desktop
+![Meat Category Recipe Cards](lekkercook/documentation/images/features/recipe-cards/meat-category-recipe-cards.png)
+- Medium Screen
+![Meat Category Recipe Cards Medium Screens](lekkercook/documentation/images/features/recipe-cards/meat-category-recipe-cards-medium.png)
 
-**December 2019:** Added Eventyret's Bootstrap 4 extension. Type `!bscdn` in a HTML file to add the Bootstrap boilerplate. Check out the <a href="https://github.com/Eventyret/vscode-bcdn" target="_blank">README.md file at the official repo</a> for more options.
+- The Meat category was chosen as a recipe category example. It shows a list of recipes based on meat. Each recipe is a card, like the category, with an image rating average and a favorite toggle button that adds the recipe to the user's favorite page, filing the heart icon with the red color when activated, press again the heart icon will be hollow with a blue outline and the recipe will be removed from the favorites; the favorite button is present on the recipe page as well; if you want to change the category, a category dropdown menu is displayed on the navbar for easy access to the category content, avoiding the necessity of returning to the category cards on the home page. Obs. The Category dropdown menu is not displayed on the home-page "landing page" to encourage the user to scroll down to the cards and navigate the content, but it is displayed on all other site pages. All the categories' content is CRUD manageable on the admin panel and is displayed dynamically when you create, update, or delete category content.
 
-------
+### Recipe Page
+![Recipe Hero Image](lekkercook/documentation/images/features/recipe-page/recipe-hero-image.png)
+![Recipe page Moblie](Lekkercook/documentation/images/features/recipe-page/recipe-page-mobile.png)
+- To access any of the recipes and their functionalities described in this section, the user must sign up and log in. If the user tries to access without logging in, the user is redirected to the log-in page. At the top of the page, we have the recipe title, and below, we Have a high-definition recipe hero image that illustrates the recipe.
 
-## FAQ about the uptime script
+#### Recipe Rating and Recipe Text
+![Recipe Rating](lekkercook/documentation/images/features/recipe-page/recipe-rating.png)
+- Below the recipe image, we have the average rating score followed by the rating star icons that color it dynamically by the user click; when the number of stars that the user wishes to give to the recipe is selected, the next step is to click in the blue "rate button," and the average rating is calculated and updated without reloading the page thanks to the "ajax" javascript code. And below the rating, we find the actual recipe text content.
 
-**Why have you added this script?**
+#### Add to Favorites
+![Favorite button](lekkercook/documentation/images/features/recipe-page/favorite-button.png)
+- Bellow the recipe and above the comments, we find the favorite button; the functionality has been described in the (Category Page section) resuming it is a toggle button that ads and removes the recipe from the user's favorite page
 
-It will help us to calculate how many running workspaces there are at any one time, which greatly helps us with cost and capacity planning. It will help us decide on the future direction of our cloud-based IDE strategy.
+#### Recipe Comment
+![Recipe Comment](lekkercook/documentation/images/features/recipe-page/recipe-comments.png)
+- Below the recipe, we find the comments section with the user's comments for this specific recipe; when the user submits a new comment, a message is displayed. Warning: The comment is awaiting the administrator's approval; when the approval is given, any user can leave a like in the comment.
 
-**How will this affect me?**
+#### Recipe Edit and Delete Comment
+![Recipe Edit Comment](lekkercook/documentation/images/features/recipe-page/edit-comment.png)
+- If the user wishes, he can delete or edit the comment at any time. If the comment is edited, it has to be approved by the administrator again, even if the comment was previously approved.
 
-For everyday usage of Gitpod, it doesn’t have any effect at all. The script only captures the following data:
+### User Favorites
+![Recipe Favorites](lekkercook/documentation/images/features/user-favorites/user-favorites.png)
+- The user favorites is a page where the user can add or remove his favorite recipes represented by the "recipe cards" that have been described in the (Category Page); When the user clicks one of the recipe cards, it opens the page with the respective recipe, when you want to remove from favorites there is a "Remove from favorites" button.
 
-- An ID that is randomly generated each time the workspace is started.
-- The current date and time
-- The workspace status of “started” or “running”, which is sent every 5 minutes.
+#### Mobile Favorites
+![Mobile Favorites](lekkercook/documentation/images/features/user-favorites/small-favorites.png)
+- The favorite page, like all LekkerCook pages, are fully bootstrap responsive in small, medium, and large screens
 
-It is not possible for us or anyone else to trace the random ID back to an individual, and no personal data is being captured. It will not slow down the workspace or affect your work.
+### Log in | signUp
+![Log in](lekkercook/documentation/images/features/login-signup/login.png)
+- Here, we have a simple, straightforward login page with a welcome message and a link to signUp
 
-**So….?**
-
-We want to tell you this so that we are being completely transparent about the data we collect and what we do with it.
-
-**Can I opt out?**
-
-Yes, you can. Since no personally identifiable information is being captured, we'd appreciate it if you let the script run; however if you are unhappy with the idea, simply run the following commands from the terminal window after creating the workspace, and this will remove the uptime script:
-
-```
-pkill uptime.sh
-rm .vscode/uptime.sh
-```
-
-**Anything more?**
-
-Yes! We'd strongly encourage you to look at the source code of the `uptime.sh` file so that you know what it's doing. As future software developers, it will be great practice to see how these shell scripts work.
-
----
-
-Happy coding!
+#### Sign Up
+![signUp](lekkercook/documentation/images/features/login-signup/signup.png)
+- Here is the Mobile signUp page 
