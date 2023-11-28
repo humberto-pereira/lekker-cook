@@ -45,6 +45,9 @@ LekkerCook aims to be accessible and user-friendly, offering an intuitive interf
 - Oswald
 
 ## User Stories:
+- Create wireframes
+
+- create DB diagram
 
 - View the categories list: As a Site User, I can view a list of recipe categories so that I can choose one category of recipes.
 
@@ -76,7 +79,26 @@ LekkerCook aims to be accessible and user-friendly, offering an intuitive interf
 
 - Approve comments: As a Site Admin, I can approve or disapprove comments so that I can filter out the comments.
 
+- create README.md
+
+- Create TESTING.md
+
 ## AGILE Development
+
+#### LekkerCook was developed using AGILE method on git hub: 
+- 1 - A user story template was created and added to the repository
+- 2 - A project "LekkerCook user stories" was created
+- 3 - Go to the Project tab in your repo
+- 4 Click Add Project, then Go to your profile to create a new project.
+- 5 - Create a new project using the Board template
+- 6 - Rename the new board by clicking the name in the top left.
+- 7 - Navigate to the Projects tab again in your repo. Click Add Project again and search your new board to add it
+- 8 - Four boards where created: Todo, In Progress, Done, and Future Features
+- 9 - Click in issue in your repo, then new select the "User Story" template and then create your issue "User Story" for the board
+- 10 - Then go to projects in the right side, select LekkerCook user stories and submit the new issue, the new issue will be added to the first board "Todo"
+- 11 - Select the user stories to be implemented move it to the "In Progress" board go to the IDE implement the code, when done move the implemented user stories "Issue" to the "Done" board
+- 12 - Repeated the process until all the "Todo" user stories where moved to the "In Progress" implemented and then moved to the "Done board" then the project was finished with all the user stories "Issues" requirements implemented
+
 
 ### Database Diagram Relationship 
 ![Database Diagram](lekkercook/documentation/images/database-diagram/database_diagram.png)
@@ -134,7 +156,7 @@ item that redirect to the user-favorites recipes page, and the log-out how the n
 
 #### Recipe Rating and Recipe Text
 ![Recipe Rating](lekkercook/documentation/images/features/recipe-page/recipe-rating.png)
-- Below the recipe image, we have the average rating score followed by the rating star icons that color it dynamically by the user click; when the number of stars that the user wishes to give to the recipe is selected, the next step is to click in the blue "rate button," and the average rating is calculated and updated without reloading the page thanks to the "ajax" javascript code. And below the rating, we find the actual recipe text content.
+- Below the recipe image, we have the average rating score followed by the rating star icons that color it dynamically by the user click; when the number of stars that the user wishes to give to the recipe is selected, the next step is to click in the blue "rate button," and the average rating is calculated and updated without reloading the page thanks to the javascript code. And below the rating, we find the actual recipe text content.
 
 ### Add to Favorites
 ![Favorite button](lekkercook/documentation/images/features/recipe-page/favorite-button.png)
@@ -165,25 +187,135 @@ item that redirect to the user-favorites recipes page, and the log-out how the n
 - Here is the Mobile signUp page 
 
 ## Testing
+- [TESTING.md link](TESTING.md)
 
-### Manual Testing 
 
-### Testing User Stories
-
-## Validator Testing
-- HTML
-- No errors were returned when passing through the official [W3Cvalidator](https://validator.w3.org/nu/?doc=https%3A%2F%2Flekker-cook-00ac4ef685fa.herokuapp.com%2F)
-- CSS
-- No errors were found when passing through the official [jigsaw validator](https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Flekker-cook-00ac4ef685fa.herokuapp.com%2F&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=pt-BR)
 
 ## Deployment
 
+### Forking a Repository on GitHub
+- Log In to GitHub: If you don't have a GitHub account, sign up.
+- Find the Repository: Go to the GitHub page of the project you want to fork.
+- Fork the Repository: Click the "Fork" button in the top right corner of the page.
+
+### Cloning a Repository from GitHub
+- Log In to GitHub: Make sure you are signed in.
+- Access the Repository: Navigate to the project's GitHub repository page.
+- Prepare to Clone: Click on the "Code" button, select one of the options (HTTPS, SSH, or GitHub CLI), and copy the link.
+- Open Your Terminal: In your code editor, open the terminal.
+- Set the Location: Change the current working directory to where you want the cloned directory.
+- Clone: Type 'git clone', paste the link you copied, and press enter.
+
+### Deploying to Heroku
+- Setting Up an ElephantSQL Database (or Similar Service)
+- Create an Account: Sign up for ElephantSQL or a similar database service.
+- Set Up the Database:
+- Log into ElephantSQL.
+- Click "Create New Instance".
+- Choose a plan, give your database a name, and select a data center.
+- Review the details and create the instance.
+- Copy the database URL from the dashboard.
+### Creating a Heroku App
+- Heroku Account: Sign up for Heroku if you haven't already.
+- Create a New App:
+- Go to the Heroku dashboard.
+- Click "Create new app".
+- Name your app (must be unique) and select a region.
+- Click "Create app".
+#### Configuring the Environment and Database on Heroku
+- Environment File: In your IDE, create a new env.py file.
+- Set Environment Variables: In env.py, import the os library and set environment variables for the database URL, a secret key,
+Cloudinary Setup: If using Cloudinary, copy the API Environment variable into env.py.
+Heroku Config Vars:
+In the Heroku app settings, click "Reveal Config Vars".
+Add key-value pairs for 
+- PORT 8000
+- DATABASE_URL
+- SECRET_KEY
+- CLOUDINARY_URL.
+- Deploying the App on Heroku
+- Go to the Deploy Tab: In your Heroku app's dashboard.
+- Set Up GitHub Deployment:
+- Choose GitHub as the deployment method.
+- Connect to GitHub and select the repository.
+- Deploy: Scroll down and click "Deploy Branch".
+
 ## Citation Sources
 
-#### Credits 
+#### Credits
+- HTML templates: Code Institute "I Think Therefore I Blog" project
+I used the templates as an base and customized it for my needs
+- Django framework: I used the code institute project as "I Think Therefore I Blog" inspiration for my project.
+- Other django project sources:
+- https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django
+- https://www.youtube.com/watch?v=rHux0gMZ3Eg&ab_channel=ProgrammingwithMosh
+- https://www.youtube.com/watch?v=PtQiiknWUcI&t=4106s&ab_channel=TraversyMedia
+- https://docs.allauth.org/en/latest/
+- https://docs.djangoproject.com/en/stable/topics/db/models/
+- https://docs.djangoproject.com/en/stable/topics/http/views/
+- https://docs.djangoproject.com/en/stable/topics/forms/
+- Javascript sources:
+- https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model
+- https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
+- https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html
+- https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Manipulating_the_DOM
+- https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie
+- https://www.youtube.com/watch?v=cuEtnrL9-H0&ab_channel=WebDevSimplified
+- bootstrap 
+- https://getbootstrap.com/docs/5.3/getting-started/introduction/
 
 #### Content
+- All the Recipes text content was created by Chat gpt open AI
+### Media
+#### carousel images and category cards images credits
+- meat-corousel-cards - https://www.pexels.com/pt-br/foto/bife-de-carne-bem-passado-e-vegetais-no-prato-299347/
 
-#### Media
+- dessert-carousel-cards - https://www.pexels.com/pt-br/foto/panqueca-com-morango-fatiado-376464/
 
-## AGILE Development
+- dough-carousel-cards- https://www.pexels.com/pt-br/foto/assando-assar-coques-cozimento-9510/
+
+- fish-carousel-cards- https://www.pexels.com/pt-br/foto/prato-de-salada-de-peixe-262959/
+
+### recipes cards and recipe page images credits
+#### meat category 
+
+- meat balls - https://pixabay.com/illustrations/meatballs-tomato-sauce-snack-food-7517633/
+
+- milanesa steak - https://blog.amigofoods.com/index.php/argentine-foods/milanesa/
+
+- roast beef - https://www.delish.com/cooking/recipe-ideas/a23584914/perfect-roast-beef-recipe/
+
+
+- roast-chicken - https://www.pexels.com/pt-br/foto/carne-frita-em-prato-branco-2338407/
+
+#### dessert category
+
+- petit gateau -https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fphotos%2Fpetit-gateau&psig=AOvVaw2B851-HRPN6TKy8cC1Aqf6&ust=1700755974899000&source=images&cd=vfe&opi=89978449&ved=0CBQQjhxqFwoTCKiz0u__14IDFQAAAAAdAAAAABAI
+
+- cheese cake -https://kidsrezepte.de/new-york-cheesecake/
+
+- chocolate muffins - https://www.istockphoto.com/de/search/2/image-film?phrase=chocolate+muffin
+
+- strawberry cupcakes - https://www.google.com/url?sa=i&url=https%3A%2F%2Fpreppykitchen.com%2Fstrawberry-cupcakes%2F&psig=AOvVaw0zubud5DWrPZqXltzOtYrY&ust=1700756639837000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNiJ4qyC2IIDFQAAAAAdAAAAABAE
+
+#### dough category
+
+- focaccia - https://www.google.com/url?sa=i&url=https%3A%2F%2Falexandracooks.com%2F2018%2F03%2F02%2Fovernight-refrigerator-focaccia-best-focaccia%2F&psig=AOvVaw0KxX6HYbHloKSE2-rB_h28&ust=1700757040684000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCJj23euD2IIDFQAAAAAdAAAAABAE
+
+- pizza Margherita - https://meny.no/oppskrifter/pizza/klassisk-margherita/
+
+- minced meat pie - https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.thebrewerandthebaker.com%2Farchives%2F1236&psig=AOvVaw3JkRjUMnbqJqIAUOI--Igw&ust=1700757595896000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCLCdy_SF2IIDFQAAAAAdAAAAABAE
+
+- ciabatta bread - https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.italianrecipebook.com%2Fciabatta-bread%2F&psig=AOvVaw1YwsCrI3TnjdcLbBbmKOsW&ust=1700757701128000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMjY76aG2IIDFQAAAAAdAAAAABAE
+
+#### fish category
+
+- steamed fish - https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.godairyfree.org%2Frecipes%2Fpan-steamed-fish-lemon-white-wine-sauce&psig=AOvVaw1m0Bsfr5BYEqyd1vimHgy5&ust=1700757823754000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCOi8peGG2IIDFQAAAAAdAAAAABAE
+
+- breaded prawns - https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.kagerer.de%2Febi-fry-garnelen-1645&psig=AOvVaw3cTRkwpPqGGvJHHPMs4OYO&ust=1700757975330000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCICsyqmH2IIDFQAAAAAdAAAAABAE
+
+- bacalhau a bras - https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.photosandfood.ca%2F2022%2F12%2F12%2Fbacalhau-a-bras-portuguese-cod-fish-with-onions-eggs-and-fries-a-time-saving-hack%2F&psig=AOvVaw2qIvtU3Z_iOph85MetFwdi&ust=1700758054977000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMjxts-H2IIDFQAAAAAdAAAAABAE
+
+- tomato fish soup - https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.bonappetit.com%2Frecipe%2Fbrothy-tomato-and-fish-soup-with-lime&psig=AOvVaw2IkhuvkT8oWihzTxzzdx2k&ust=1700758126688000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCLiZ-vGH2IIDFQAAAAAdAAAAABAE
+
+

@@ -52,8 +52,8 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             {% for category in categories %}
-                            <li><a class="dropdown-item" href="{% url 'category_detail' slug=category.slug %}">{{
-                                    category.name }}</a></li>
+                            <li><a class="dropdown-item" href="{% url 'category_detail' slug=category.slug %}">
+                                {{ category.name }}</a></li>
                             {% endfor %}
                         </ul>
                     </li>

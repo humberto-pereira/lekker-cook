@@ -45,7 +45,7 @@ def recipe_detail(request, slug):
     and rating submission.
 
     param request: HttpRequest object
-    param slug: Thej slug of the recipe to retrieve
+    param slug: The slug of the recipe to retrieve
     :return: HttpResponse object with the rendered recipe_detail.html template
     """
     recipe = get_object_or_404(Recipe, slug=slug)
